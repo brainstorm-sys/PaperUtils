@@ -1,15 +1,14 @@
-package New_Project_Paper.plugin.paperPlugin;
+package io.github.codingmastermanager.paper_plugin;
 
 import dev.jorel.commandapi.CommandAPICommand;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class spawnCommand {
+public class SpawnCommand {
 
     public static void spawncomm(){
         new CommandAPICommand("spawn")  //-2694, -1551, 78

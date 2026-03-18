@@ -1,6 +1,6 @@
 name: Paper_Plugin
 version: '1.0-SNAPSHOT'
-main: New_Project_Paper.plugin.paperPlugin.PaperPlugin
+main: io.github.codingmastermanager.paperPlugin.PaperPlugin
 api-version: '1.21'
 dependencies:
   server:

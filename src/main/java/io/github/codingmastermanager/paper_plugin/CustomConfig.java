@@ -1,4 +1,4 @@
-package New_Project_Paper.plugin.paperPlugin;
+package io.github.codingmastermanager.paper_plugin;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
-public class customConfig {
+public class CustomConfig {
 
     private static File file;
     private static FileConfiguration customfile;
@@ -46,13 +46,13 @@ public class customConfig {
 
     public static void saveJailedPlayers() {
 
-        FileConfiguration config = customConfig.get();
+        FileConfiguration config = CustomConfig.get();
 
         config.set("jailed", null); // clear old data. (reminder)
 
-        for (UUID uuid : jailData.jailedPlayers.keySet()) {
+        for (UUID uuid : JailData.jailedPlayers.keySet()) {
 
-            Location loc = jailData.jailedPlayers.get(uuid);
+            Location loc = JailData.jailedPlayers.get(uuid);
 
             String path = "jailed." + uuid.toString();
 
@@ -62,12 +62,12 @@ public class customConfig {
             config.set(path + ".z", loc.getZ());
         }
 
-        customConfig.save();
+        CustomConfig.save();
     }
 
     public static void loadJailedPlayers() {
 
-        FileConfiguration config = customConfig.get();
+        FileConfiguration config = CustomConfig.get();
 
         if (config.getConfigurationSection("jailed") == null) return;
 
@@ -82,7 +82,7 @@ public class customConfig {
 
             Location loc = new Location(Bukkit.getWorld(world), x, y, z);
 
-            jailData.jailedPlayers.put(uuid, loc);
+            JailData.jailedPlayers.put(uuid, loc);
         }
     }
 }

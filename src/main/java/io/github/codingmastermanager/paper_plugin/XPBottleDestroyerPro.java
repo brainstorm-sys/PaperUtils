@@ -1,4 +1,4 @@
-/*package New_Project_Paper.plugin.paperPlugin;
+/*package io.github.codingmastermanager.paperPlugin;
 
 import org.bukkit.Sound;
 import org.bukkit.block.Block;

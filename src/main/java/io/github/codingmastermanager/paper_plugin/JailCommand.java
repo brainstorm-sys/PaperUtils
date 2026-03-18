@@ -1,16 +1,14 @@
-package New_Project_Paper.plugin.paperPlugin;
+package io.github.codingmastermanager.paper_plugin;
 
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.EntitySelectorArgument;
-import dev.jorel.commandapi.arguments.PlayerProfileArgument;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 
-public class jailCommand {
+public class JailCommand {
     public static void jailcomm() {
 
         new CommandAPICommand("jail")
@@ -20,8 +18,8 @@ public class jailCommand {
                     Location jailLocation = new Location(Bukkit.getWorlds().get(0), -2645, 77 ,-2148);
                     target.teleport(jailLocation);
                     target.setBedSpawnLocation(jailLocation);
-                    jailData.jailedPlayers.put(target.getUniqueId(), jailLocation);
-                    customConfig.saveJailedPlayers();
+                    JailData.jailedPlayers.put(target.getUniqueId(), jailLocation);
+                    CustomConfig.saveJailedPlayers();
 
                     target.getWorld().spawnParticle(
                             Particle.LAVA,
@@ -42,8 +40,8 @@ public class jailCommand {
                 .withArguments(new EntitySelectorArgument.OnePlayer("target"))
                 .executesPlayer((player, args) -> {
                     Player target = (Player) args.get("target");
-                    if (jailData.jailedPlayers.containsKey(target.getUniqueId())){
-                        jailData.jailedPlayers.remove(target.getUniqueId());
+                    if (JailData.jailedPlayers.containsKey(target.getUniqueId())){
+                        JailData.jailedPlayers.remove(target.getUniqueId());
                         target.sendMessage("§aYou've been unjailed! Don't forget to read the rules this time!");
                         target.playSound(target, Sound.BLOCK_AMETHYST_CLUSTER_BREAK, 1f, 1f);
                         target.getWorld().spawnParticle(

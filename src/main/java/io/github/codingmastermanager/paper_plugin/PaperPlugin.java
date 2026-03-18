@@ -1,10 +1,7 @@
-package New_Project_Paper.plugin.paperPlugin;
+package io.github.codingmastermanager.paper_plugin;
 
 import dev.jorel.commandapi.CommandAPI;
-import dev.jorel.commandapi.CommandAPIBukkitConfig;
-import dev.jorel.commandapi.CommandAPIConfig;
 import dev.jorel.commandapi.CommandAPIPaperConfig;
-import org.bukkit.event.EventHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class PaperPlugin extends JavaPlugin {
@@ -15,19 +12,19 @@ public final class PaperPlugin extends JavaPlugin {
         System.out.println("§aThe server has Started!");
         //getServer().getPluginManager().registerEvents(new XPBottleDestroyerPro(), this);
         CommandAPI.onEnable();
-        spawnCommand.spawncomm();
-        jailCommand.jailcomm();
-        getServer().getPluginManager().registerEvents(new jailListener(), this);
+        SpawnCommand.spawncomm();
+        JailCommand.jailcomm();
+        getServer().getPluginManager().registerEvents(new JailListener(), this);
         //testCommand.register();
 
         getConfig().options().copyDefaults();
         saveDefaultConfig();
 
-        customConfig.setup();
-        customConfig.get().options().copyDefaults(true);
-        customConfig.save();
-        customConfig.get().addDefault("taco", "rice");
-        customConfig.loadJailedPlayers();
+        CustomConfig.setup();
+        CustomConfig.get().options().copyDefaults(true);
+        CustomConfig.save();
+        CustomConfig.get().addDefault("taco", "rice");
+        CustomConfig.loadJailedPlayers();
 
     }
 
@@ -45,7 +42,7 @@ public final class PaperPlugin extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
         CommandAPI.onDisable();
-        customConfig.saveJailedPlayers();
+        CustomConfig.saveJailedPlayers();
 
     }
 

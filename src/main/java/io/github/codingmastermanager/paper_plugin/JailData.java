@@ -1,12 +1,11 @@
-package New_Project_Paper.plugin.paperPlugin;
+package io.github.codingmastermanager.paper_plugin;
 
 import org.bukkit.Location;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class jailData {
+public class JailData {
     public static HashMap<UUID, Location> jailedPlayers = new HashMap<>();
 
 }

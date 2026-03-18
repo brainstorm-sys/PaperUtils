@@ -1,4 +1,4 @@
-/*package New_Project_Paper.plugin.paperPlugin;
+/*package io.github.codingmastermanager.paperPlugin;
 
 import dev.jorel.commandapi.CommandAPICommand;
 import org.bukkit.command.CommandExecutor;
