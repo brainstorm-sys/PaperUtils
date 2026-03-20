@@ -13,13 +13,13 @@ public final class PaperPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        System.out.println("§aThe server has Started!");
+        this.getComponentLogger().info("<red>The server has Started!");
         //getServer().getPluginManager().registerEvents(new XPBottleDestroyerPro(), this);
         CommandAPI.onEnable();
-        SpawnCommand.spawncomm();
-        JailCommand.jailcomm();
-        CustomItem.itemcomm();
-        getServer().getPluginManager().registerEvents(new JailListener(), this);
+        //SpawnCommand.spawncomm();
+        //JailCommand.jailcomm();
+        //CustomItem.itemcomm();
+        getServer().getPluginManager().registerEvents(new JailListener(this), this);
         //testCommand.register();
 
         getConfig().options().copyDefaults();
@@ -41,6 +41,10 @@ public final class PaperPlugin extends JavaPlugin {
                         .fallbackToLatestNMS(false)
                         .missingExecutorImplementationMessage("An error occured")
         );
+
+        SpawnCommand.spawncomm();
+        JailCommand.jailcomm();
+        CustomItem.itemcomm();
     }
 
     @Override

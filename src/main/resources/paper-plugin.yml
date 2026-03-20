@@ -1,0 +1,4 @@
+name: Paper_Plugin
+version: '1.0-SNAPSHOT'
+main: io.github.codingmastermanager.paper_plugin.PaperPlugin
+api-version: '1.21'

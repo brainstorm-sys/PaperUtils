@@ -15,7 +15,7 @@ public class CustomConfig {
     private static FileConfiguration customfile;
 
     public static void setup(){
-        file = new File(Bukkit.getServer().getPluginManager().getPlugin("Paper_Plugin").getDataFolder(), "plugin.yml");
+        file = new File(Bukkit.getServer().getPluginManager().getPlugin("Paper_Plugin").getDataFolder(), "paper-plugin.yml");
 
         if (!file.exists()){
             try{
