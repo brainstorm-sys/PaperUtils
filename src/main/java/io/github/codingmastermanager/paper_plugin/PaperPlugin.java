@@ -43,6 +43,7 @@ public final class PaperPlugin extends JavaPlugin {
 
     @Override
     public void onLoad(){
+        System.out.println("NEW_FILE");
         CommandAPI.onLoad(
                 new CommandAPIPaperConfig(this)
                         .silentLogs(true)

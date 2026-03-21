@@ -18,6 +18,9 @@ public class CustomItem extends JavaPlugin {
     public static ItemStack getcrossbow(){
         ItemStack crossbow = new ItemStack(Material.CROSSBOW);
         crossbow.setData(DataComponentTypes.ITEM_MODEL, Key.key("purple_crossbow", "crossbow"));
+        ItemMeta meta = crossbow.getItemMeta();
+        meta.displayName(Component.text("Arbiter's Crossbow", NamedTextColor.DARK_RED));
+
         return crossbow;
     }
 

@@ -12,8 +12,9 @@ public class JailCommand {
     public static void jailcomm() {
 
         new CommandAPICommand("jail")
+                .withPermission("paperplugin.moderators")
                 .withArguments(new EntitySelectorArgument.OnePlayer("target"))
-                .executesPlayer((player, args) -> {
+                .executes((player, args) -> {
                     Player target = (Player) args.get("target");//-2645 -2148 77
                     Location jailLocation = new Location(Bukkit.getWorlds().get(0), -2645, 77 ,-2148);
                     target.teleport(jailLocation);
