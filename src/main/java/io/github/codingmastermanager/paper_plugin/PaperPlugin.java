@@ -10,8 +10,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class PaperPlugin extends JavaPlugin {
 
+    private static PaperPlugin instance;
+
     @Override
     public void onEnable() {
+
+        instance = this;
         // Plugin startup logic
         this.getComponentLogger().info("<red>The server has Started!");
         //getServer().getPluginManager().registerEvents(new XPBottleDestroyerPro(), this);
@@ -31,6 +35,10 @@ public final class PaperPlugin extends JavaPlugin {
         CustomConfig.get().addDefault("taco", "rice");
         CustomConfig.loadJailedPlayers();
 
+    }
+
+    public static PaperPlugin getInstance(){
+        return instance;
     }
 
     @Override

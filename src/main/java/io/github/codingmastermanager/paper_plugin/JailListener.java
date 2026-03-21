@@ -3,11 +3,14 @@ package io.github.codingmastermanager.paper_plugin;
 import com.destroystokyo.paper.event.player.PlayerLaunchProjectileEvent;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.key.Key;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.minecraft.world.item.BowItem;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
+import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -124,28 +127,53 @@ public class JailListener implements Listener {
 
     @EventHandler
     public void jailcrossbow(PlayerLaunchProjectileEvent e) {
-        Player shooter = e.getPlayer();
-        ItemStack crossbow = e.getItemStack();
+        System.out.println("EVENT FIRED");
+
+        Player hurter = e.getPlayer();
+
+        Key key = hurter.getInventory().getItemInMainHand().getData(DataComponentTypes.ITEM_MODEL);
+        if (Key.key("purple_crossbow", "crossbow").equals(key)) {
+            System.out.println("Test done (launch event)");
+
+    }
+    }
+       // if(!crossbow.hasItemMeta())return;
+       // ItemMeta metacheck = crossbow.getItemMeta();
+      //  NamespacedKey key = CustomItem.PURPLE_CROSSBOW_KEY;
+
+
+     //   if(e.getProjectile() instanceof Arrow){
+     //       Object proj = e.getProjectile();
+     //       AbstractArrow arrow = (AbstractArrow) proj; // Temp set
+     //       arrow.getPersistentDataContainer().set(key, PersistentDataType.BYTE, (byte) 1);
+     //       System.out.println("TAGGED SUCCESSFULLY");
+     //   }
+
+
+
+    @EventHandler
+    public void jailcrossbowhit(ProjectileHitEvent e) {
+        if (!(e.getEntity() instanceof AbstractArrow arrow)) return;
+        if (!(arrow.getShooter() instanceof Player player)) return;
+        if (!(e.getHitEntity() instanceof Player target)) return;
+        ItemStack crossbow = player.getInventory().getItemInMainHand();
 
         Key model = crossbow.getData(DataComponentTypes.ITEM_MODEL);
-        System.out.println("Crossbow has the model: " + model);
 
         if (!model.equals(crossbowKey)) return;
-        if (!(e.getProjectile() instanceof Arrow arrow)) return;
+        JailData.jailcall(target);
+        player.sendMessage(Component.text("Player Jailed!", NamedTextColor.DARK_RED));
+        System.out.println("Test completed");
 
-        arrow.getPersistentDataContainer().set(key, PersistentDataType.STRING, "purple_crossbow");
-    }
+        JailData.jailcall(target);
+        player.sendMessage(Component.text("Player Jailed!", NamedTextColor.DARK_RED));
 
-    public void jailcrossbowhit(ProjectileHitEvent e) {
-        System.out.println("A projectile hit");
-        if (!(e.getEntity() instanceof Arrow arrow)) return;
-        System.out.println("the projectile is an arrow");
-        if (!(arrow.getShooter() instanceof Player player)) return;
-        if (!arrow.getPersistentDataContainer().has(key, PersistentDataType.STRING)) return;
-        System.out.println("The projectile has the PDC value set");
-        if (!(e.getHitEntity() instanceof Player)) return;
-        System.out.println("Player hit!");
+    /*        ItemStack crossbow = player.getInventory().getItemInMainHand();
 
-        player.sendMessage("test done vro");
+        Key model = crossbow.getData(DataComponentTypes.ITEM_MODEL);
+
+        if (!model.equals(crossbowKey)) return;
+        JailData.jailcall(target);
+        player.sendMessage(Component.text("Player Jailed!", NamedTextColor.DARK_RED)); */
     }
 }
