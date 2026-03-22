@@ -1,4 +1,4 @@
-package io.github.codingmastermanager.paper_plugin;
+package io.github.brainstorm.paper_plugin;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

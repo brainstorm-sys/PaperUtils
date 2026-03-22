@@ -1,4 +1,4 @@
-package io.github.codingmastermanager.paper_plugin;
+package io.github.brainstorm.paper_plugin;
 
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.EntitySelectorArgument;
@@ -38,6 +38,7 @@ public class JailCommand {
                 .register();
 
         new CommandAPICommand("unjail")
+                .withPermission("paperplugin.moderators")
                 .withArguments(new EntitySelectorArgument.OnePlayer("target"))
                 .executesPlayer((player, args) -> {
                     Player target = (Player) args.get("target");

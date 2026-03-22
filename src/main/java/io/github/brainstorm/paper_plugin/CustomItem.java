@@ -1,4 +1,4 @@
-package io.github.codingmastermanager.paper_plugin;
+package io.github.brainstorm.paper_plugin;
 
 import dev.jorel.commandapi.CommandAPICommand;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -17,7 +17,7 @@ public class CustomItem extends JavaPlugin {
     private JavaPlugin plugin;
     public static ItemStack getcrossbow(){
         ItemStack crossbow = new ItemStack(Material.CROSSBOW);
-        crossbow.setData(DataComponentTypes.ITEM_MODEL, Key.key("purple_crossbow", "crossbow"));
+        crossbow.setData(DataComponentTypes.ITEM_MODEL, Key.key("arbiters_crossbow", "crossbow"));
         ItemMeta meta = crossbow.getItemMeta();
         meta.displayName(Component.text("Arbiter's Crossbow", NamedTextColor.DARK_RED));
 
@@ -26,6 +26,7 @@ public class CustomItem extends JavaPlugin {
 
     public static void itemcomm(){
         new CommandAPICommand("gibitem")
+                .withPermission("paperplugin.moderators")
                 .executesPlayer((player, commandArguments) -> {
                     player.give(getcrossbow());
                 })

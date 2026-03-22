@@ -1,4 +1,4 @@
-package io.github.codingmastermanager.paper_plugin;
+package io.github.brainstorm.paper_plugin;
 
 import dev.jorel.commandapi.CommandAPICommand;
 import org.bukkit.Bukkit;
@@ -7,6 +7,7 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+
 
 public class SpawnCommand {
 

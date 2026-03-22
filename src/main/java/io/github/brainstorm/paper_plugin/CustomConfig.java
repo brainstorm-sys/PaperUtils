@@ -1,4 +1,4 @@
-package io.github.codingmastermanager.paper_plugin;
+package io.github.brainstorm.paper_plugin;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

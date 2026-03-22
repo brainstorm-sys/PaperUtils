@@ -1,17 +1,12 @@
-package io.github.codingmastermanager.paper_plugin;
+package io.github.brainstorm.paper_plugin;
 
 import dev.jorel.commandapi.CommandAPI;
-import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.CommandAPIPaperConfig;
-import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.server.commands.ItemCommands;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class PaperPlugin extends JavaPlugin {
 
-    private static PaperPlugin instance;
-
+    public static PaperPlugin instance;
     @Override
     public void onEnable() {
 
@@ -24,6 +19,7 @@ public final class PaperPlugin extends JavaPlugin {
         //JailCommand.jailcomm();
         //CustomItem.itemcomm();
         getServer().getPluginManager().registerEvents(new JailListener(this), this);
+        getServer().getPluginManager().registerEvents(new JailWandItem(this), this);
         //testCommand.register();
 
         getConfig().options().copyDefaults();
