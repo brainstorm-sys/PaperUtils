@@ -2,6 +2,7 @@ package io.github.brainstorm.paper_plugin;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -84,5 +85,36 @@ public class CustomConfig {
 
             JailData.jailedPlayers.put(uuid, loc);
         }
+    }
+
+    public static void saveJailLocation(Location loc){
+        FileConfiguration config = CustomConfig.get();
+
+        if(loc == null){
+            config.set("jail", null);
+        } else{
+            config.set("jail.world", loc.getWorld().getName());
+            config.set("jail.x", loc.getX());
+            config.set("jail.y", loc.getY());
+            config.set("jail.z", loc.getZ());
+
+        }
+        CustomConfig.save();
+
+    }
+
+    public static Location loadJailLocation() {
+        FileConfiguration config = CustomConfig.get();
+
+        if (config.getString("jail.world") == null) return null;
+
+        World world = Bukkit.getWorld(config.getString("jail.world"));
+        if (world == null) return null;
+
+        double x = config.getDouble("jail.x");
+        double y = config.getDouble("jail.y");
+        double z = config.getDouble("jail.z");
+
+        return new Location(world, x, y, z);
     }
 }

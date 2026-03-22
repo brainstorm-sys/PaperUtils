@@ -16,7 +16,7 @@ public class JailCommand {
                 .withArguments(new EntitySelectorArgument.OnePlayer("target"))
                 .executes((player, args) -> {
                     Player target = (Player) args.get("target");//-2645 -2148 77
-                    Location jailLocation = new Location(Bukkit.getWorlds().get(0), -2645, 77 ,-2148);
+                    Location jailLocation = PaperPlugin.jailLocation;
                     target.teleport(jailLocation);
                     target.setBedSpawnLocation(jailLocation);
                     JailData.jailedPlayers.put(target.getUniqueId(), jailLocation);
@@ -40,7 +40,7 @@ public class JailCommand {
         new CommandAPICommand("unjail")
                 .withPermission("paperplugin.moderators")
                 .withArguments(new EntitySelectorArgument.OnePlayer("target"))
-                .executesPlayer((player, args) -> {
+                .executes((player, args) -> {
                     Player target = (Player) args.get("target");
                     if (JailData.jailedPlayers.containsKey(target.getUniqueId())){
                         JailData.jailedPlayers.remove(target.getUniqueId());

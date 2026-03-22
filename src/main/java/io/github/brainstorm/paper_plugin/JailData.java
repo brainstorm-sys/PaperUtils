@@ -16,7 +16,7 @@ public class JailData {
     public static HashMap<UUID, Location> jailedPlayers = new HashMap<>();
 
     public static void jailcall(Player player){
-        Location jailLocation = new Location(Bukkit.getWorlds().get(0), -2645, 77 ,-2148);
+        Location jailLocation = PaperPlugin.jailLocation;
         player.teleport(jailLocation);
         player.setRespawnLocation(jailLocation);
         JailData.jailedPlayers.put(player.getUniqueId(), jailLocation);

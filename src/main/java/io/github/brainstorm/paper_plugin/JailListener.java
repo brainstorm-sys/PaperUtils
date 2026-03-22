@@ -116,7 +116,7 @@ public class JailListener implements Listener {
 
     public JailListener(JavaPlugin plugin) {
         this.plugin = plugin;
-        this.key = new NamespacedKey(plugin, "custom_crossbow");
+        this.key = new NamespacedKey(plugin, "arbiters_crossbow");
     }
 
     @EventHandler
@@ -126,7 +126,7 @@ public class JailListener implements Listener {
         Player hurter = e.getPlayer();
 
         Key key = hurter.getInventory().getItemInMainHand().getData(DataComponentTypes.ITEM_MODEL);
-        if (Key.key("purple_crossbow", "crossbow").equals(key)) {
+        if (Key.key("arbiters_crossbow", "crossbow").equals(key)) {
             System.out.println("Test done (launch event)");
 
     }

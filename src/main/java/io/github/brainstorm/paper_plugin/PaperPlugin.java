@@ -2,11 +2,14 @@ package io.github.brainstorm.paper_plugin;
 
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIPaperConfig;
+import net.minecraft.network.chat.ClickEvent;
+import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class PaperPlugin extends JavaPlugin {
 
     public static PaperPlugin instance;
+    public static Location jailLocation; //ez lmao var
     @Override
     public void onEnable() {
 
@@ -25,11 +28,13 @@ public final class PaperPlugin extends JavaPlugin {
         getConfig().options().copyDefaults();
         saveDefaultConfig();
 
+
         CustomConfig.setup();
         CustomConfig.get().options().copyDefaults(true);
         CustomConfig.save();
         CustomConfig.get().addDefault("taco", "rice");
-        CustomConfig.loadJailedPlayers();
+        PaperPlugin.jailLocation = CustomConfig.loadJailLocation();
+        CustomConfig.loadJailedPlayers();;
 
     }
 
@@ -50,6 +55,7 @@ public final class PaperPlugin extends JavaPlugin {
         SpawnCommand.spawncomm();
         JailCommand.jailcomm();
         CustomItem.itemcomm();
+        JailWandItem.gibitemjailwand();
     }
 
     @Override
@@ -57,6 +63,7 @@ public final class PaperPlugin extends JavaPlugin {
         // Plugin shutdown logic
         CommandAPI.onDisable();
         CustomConfig.saveJailedPlayers();
+        CustomConfig.saveJailLocation(PaperPlugin.jailLocation);
 
     }
 

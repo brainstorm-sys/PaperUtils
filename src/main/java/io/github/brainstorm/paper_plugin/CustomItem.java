@@ -20,7 +20,7 @@ public class CustomItem extends JavaPlugin {
         crossbow.setData(DataComponentTypes.ITEM_MODEL, Key.key("arbiters_crossbow", "crossbow"));
         ItemMeta meta = crossbow.getItemMeta();
         meta.displayName(Component.text("Arbiter's Crossbow", NamedTextColor.DARK_RED));
-
+        crossbow.setItemMeta(meta);
         return crossbow;
     }
 

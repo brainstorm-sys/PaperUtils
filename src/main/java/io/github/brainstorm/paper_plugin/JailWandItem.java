@@ -1,5 +1,6 @@
 package io.github.brainstorm.paper_plugin;
 
+import dev.jorel.commandapi.CommandAPICommand;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
@@ -23,9 +24,18 @@ public class JailWandItem implements Listener {
         ItemStack jailwand = new ItemStack(Material.BLAZE_ROD);
         jailwand.setData(DataComponentTypes.ITEM_MODEL, Key.key("arbiters_crossbow", "jail_rod"));//arbiters_crossbow:jail_rod
         ItemMeta meta = jailwand.getItemMeta();
-        meta.displayName(Component.text("Jail Wand", NamedTextColor.DARK_RED));
+        meta.displayName(Component.text("Jail Wand", NamedTextColor.GRAY));
+        jailwand.setItemMeta(meta);
 
         return jailwand;
+    }
+
+    public static void gibitemjailwand(){
+        new CommandAPICommand("gibjailwand")
+                .executesPlayer((player, commandArguments) -> {
+                    player.give(getJailWand());
+                })
+                .register();
     }
 
     private static final Map<UUID, Integer> clickCount = new HashMap<>();
@@ -52,6 +62,15 @@ public class JailWandItem implements Listener {
 
         lastLocation.put(player.getUniqueId(), blocloc);
         player.sendMessage(Component.text("Jail Location" + clicks + "/3 set!", NamedTextColor.YELLOW));
+        if (clicks >= 3){
+            Location loc = e.getClickedBlock().getLocation();
+            PaperPlugin.jailLocation = loc;
+            player.sendMessage(Component.text("Jail location set!", NamedTextColor.GREEN));
+            clickCount.remove(player.getUniqueId());
+            lastLocation.remove(player.getUniqueId());
 
+            PaperPlugin.jailLocation = loc;
+            CustomConfig.saveJailLocation(PaperPlugin.jailLocation);
+        }
     }
 }
