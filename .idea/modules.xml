@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Paper_Plugin.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Paper_Plugin.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Paper_Plugin.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Paper_Plugin.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PaperUtils.main.iml" filepath="$PROJECT_DIR$/.idea/modules/PaperUtils.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/PaperUtils.test.iml" filepath="$PROJECT_DIR$/.idea/modules/PaperUtils.test.iml" />
     </modules>
   </component>
 </project>

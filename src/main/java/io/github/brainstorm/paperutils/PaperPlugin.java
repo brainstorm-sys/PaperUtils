@@ -1,8 +1,7 @@
-package io.github.brainstorm.paper_plugin;
+package io.github.brainstorm.paperutils;
 
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIPaperConfig;
-import net.minecraft.network.chat.ClickEvent;
 import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 

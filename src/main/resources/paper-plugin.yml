@@ -1,6 +1,6 @@
 name: Paper_Plugin
 version: '1.0-SNAPSHOT'
-main: io.github.brainstorm.paper_plugin.PaperPlugin
+main: io.github.brainstorm.paperutils.PaperPlugin
 api-version: '1.21'
 permissions:
   paperplugin.mods:

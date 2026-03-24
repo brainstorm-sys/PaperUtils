@@ -1,4 +1,4 @@
-package io.github.brainstorm.paper_plugin;
+package io.github.brainstorm.paperutils;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

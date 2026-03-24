@@ -1,4 +1,4 @@
-package io.github.brainstorm.paper_plugin;
+package io.github.brainstorm.paperutils;
 
 import com.destroystokyo.paper.event.player.PlayerLaunchProjectileEvent;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -12,7 +12,6 @@ import org.bukkit.entity.AbstractArrow;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
@@ -131,17 +130,17 @@ public class JailListener implements Listener {
 
     }
     }
-       // if(!crossbow.hasItemMeta())return;
-       // ItemMeta metacheck = crossbow.getItemMeta();
-      //  NamespacedKey key = CustomItem.PURPLE_CROSSBOW_KEY;
+    /*  if(!crossbow.hasItemMeta())return;
+     ItemMeta metacheck = crossbow.getItemMeta();
+      NamespacedKey key = CustomItem.PURPLE_CROSSBOW_KEY;
 
 
-     //   if(e.getProjectile() instanceof Arrow){
-     //       Object proj = e.getProjectile();
-     //       AbstractArrow arrow = (AbstractArrow) proj; // Temp set
-     //       arrow.getPersistentDataContainer().set(key, PersistentDataType.BYTE, (byte) 1);
-     //       System.out.println("TAGGED SUCCESSFULLY");
-     //   }
+       if(e.getProjectile() instanceof Arrow){
+           Object proj = e.getProjectile();
+           AbstractArrow arrow = (AbstractArrow) proj; // Temp set
+           arrow.getPersistentDataContainer().set(key, PersistentDataType.BYTE, (byte) 1);
+           System.out.println("TAGGED SUCCESSFULLY");
+       }*/
 
 
 

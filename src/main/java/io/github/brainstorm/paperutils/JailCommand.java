@@ -1,8 +1,7 @@
-package io.github.brainstorm.paper_plugin;
+package io.github.brainstorm.paperutils;
 
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.EntitySelectorArgument;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
