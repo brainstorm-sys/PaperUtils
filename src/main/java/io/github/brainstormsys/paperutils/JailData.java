@@ -1,4 +1,4 @@
-package io.github.brainstorm.paperutils;
+package io.github.brainstormsys.paperutils;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -15,7 +15,7 @@ public class JailData {
     public static HashMap<UUID, Location> jailedPlayers = new HashMap<>();
 
     public static void jailcall(Player player){
-        Location jailLocation = PaperPlugin.jailLocation;
+        Location jailLocation = PaperUtils.jailLocation;
         player.teleport(jailLocation);
         player.setRespawnLocation(jailLocation);
         JailData.jailedPlayers.put(player.getUniqueId(), jailLocation);

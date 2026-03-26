@@ -1,4 +1,4 @@
-package io.github.brainstorm.paperutils;
+package io.github.brainstormsys.paperutils;
 
 import dev.jorel.commandapi.CommandAPICommand;
 import io.papermc.paper.datacomponent.DataComponentTypes;

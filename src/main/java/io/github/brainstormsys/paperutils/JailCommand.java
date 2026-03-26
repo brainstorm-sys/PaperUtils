@@ -1,4 +1,4 @@
-package io.github.brainstorm.paperutils;
+package io.github.brainstormsys.paperutils;
 
 import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.EntitySelectorArgument;
@@ -15,7 +15,7 @@ public class JailCommand {
                 .withArguments(new EntitySelectorArgument.OnePlayer("target"))
                 .executes((player, args) -> {
                     Player target = (Player) args.get("target");//-2645 -2148 77
-                    Location jailLocation = PaperPlugin.jailLocation;
+                    Location jailLocation = PaperUtils.jailLocation;
                     target.teleport(jailLocation);
                     target.setBedSpawnLocation(jailLocation);
                     JailData.jailedPlayers.put(target.getUniqueId(), jailLocation);

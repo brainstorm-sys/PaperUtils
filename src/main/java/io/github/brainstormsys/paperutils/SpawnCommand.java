@@ -1,4 +1,4 @@
-package io.github.brainstorm.paperutils;
+package io.github.brainstormsys.paperutils;
 
 import dev.jorel.commandapi.CommandAPICommand;
 import org.bukkit.Bukkit;
@@ -28,7 +28,7 @@ public class SpawnCommand {
                                 player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1f, 1f);
                                 cancel();
                                 return;
-                            }//-2648 73 -2163
+                            }
 
                             if (countdown == 0){
                                 player.teleport(new Location(Bukkit.getWorlds().get(0), -2648, 73, -2163, player.getYaw(), player.getPitch()));
@@ -47,7 +47,7 @@ public class SpawnCommand {
                             countdown--;
 
                         }
-                    } .runTaskTimer(JavaPlugin.getPlugin(PaperPlugin.class), 0L, 20L);
+                    } .runTaskTimer(JavaPlugin.getPlugin(PaperUtils.class), 0L, 20L);
 
                 })
 

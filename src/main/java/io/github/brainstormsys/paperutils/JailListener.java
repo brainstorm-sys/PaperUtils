@@ -1,4 +1,4 @@
-package io.github.brainstorm.paperutils;
+package io.github.brainstormsys.paperutils;
 
 import com.destroystokyo.paper.event.player.PlayerLaunchProjectileEvent;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -130,19 +130,6 @@ public class JailListener implements Listener {
 
     }
     }
-    /*  if(!crossbow.hasItemMeta())return;
-     ItemMeta metacheck = crossbow.getItemMeta();
-      NamespacedKey key = CustomItem.PURPLE_CROSSBOW_KEY;
-
-
-       if(e.getProjectile() instanceof Arrow){
-           Object proj = e.getProjectile();
-           AbstractArrow arrow = (AbstractArrow) proj; // Temp set
-           arrow.getPersistentDataContainer().set(key, PersistentDataType.BYTE, (byte) 1);
-           System.out.println("TAGGED SUCCESSFULLY");
-       }*/
-
-
 
     @EventHandler
     public void jailcrossbowhit(ProjectileHitEvent e) {
@@ -160,13 +147,5 @@ public class JailListener implements Listener {
 
         JailData.jailcall(target);
         player.sendMessage(Component.text("Player Jailed!", NamedTextColor.DARK_RED));
-
-    /*        ItemStack crossbow = player.getInventory().getItemInMainHand();
-
-        Key model = crossbow.getData(DataComponentTypes.ITEM_MODEL);
-
-        if (!model.equals(crossbowKey)) return;
-        JailData.jailcall(target);
-        player.sendMessage(Component.text("Player Jailed!", NamedTextColor.DARK_RED)); */
     }
 }

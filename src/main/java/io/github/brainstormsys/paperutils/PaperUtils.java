@@ -1,13 +1,13 @@
-package io.github.brainstorm.paperutils;
+package io.github.brainstormsys.paperutils;
 
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIPaperConfig;
 import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class PaperPlugin extends JavaPlugin {
+public final class PaperUtils extends JavaPlugin {
 
-    public static PaperPlugin instance;
+    public static PaperUtils instance;
     public static Location jailLocation; //ez lmao var
     @Override
     public void onEnable() {
@@ -15,14 +15,9 @@ public final class PaperPlugin extends JavaPlugin {
         instance = this;
         // Plugin startup logic
         this.getComponentLogger().info("<red>The server has Started!");
-        //getServer().getPluginManager().registerEvents(new XPBottleDestroyerPro(), this);
         CommandAPI.onEnable();
-        //SpawnCommand.spawncomm();
-        //JailCommand.jailcomm();
-        //CustomItem.itemcomm();
         getServer().getPluginManager().registerEvents(new JailListener(this), this);
         getServer().getPluginManager().registerEvents(new JailWandItem(this), this);
-        //testCommand.register();
 
         getConfig().options().copyDefaults();
         saveDefaultConfig();
@@ -32,12 +27,12 @@ public final class PaperPlugin extends JavaPlugin {
         CustomConfig.get().options().copyDefaults(true);
         CustomConfig.save();
         CustomConfig.get().addDefault("taco", "rice");
-        PaperPlugin.jailLocation = CustomConfig.loadJailLocation();
+        PaperUtils.jailLocation = CustomConfig.loadJailLocation();
         CustomConfig.loadJailedPlayers();;
 
     }
 
-    public static PaperPlugin getInstance(){
+    public static PaperUtils getInstance(){
         return instance;
     }
 
@@ -62,7 +57,7 @@ public final class PaperPlugin extends JavaPlugin {
         // Plugin shutdown logic
         CommandAPI.onDisable();
         CustomConfig.saveJailedPlayers();
-        CustomConfig.saveJailLocation(PaperPlugin.jailLocation);
+        CustomConfig.saveJailLocation(PaperUtils.jailLocation);
 
     }
 

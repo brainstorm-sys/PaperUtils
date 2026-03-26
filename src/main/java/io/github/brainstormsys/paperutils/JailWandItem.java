@@ -1,4 +1,4 @@
-package io.github.brainstorm.paperutils;
+package io.github.brainstormsys.paperutils;
 
 import dev.jorel.commandapi.CommandAPICommand;
 import io.papermc.paper.datacomponent.DataComponentTypes;
@@ -41,9 +41,9 @@ public class JailWandItem implements Listener {
     private static final Map<UUID, Integer> clickCount = new HashMap<>();
     private static final Map<UUID, Location> lastLocation = new HashMap<>();
     private final Key jailwandKey = Key.key("arbiters_crossbow", "jail_rod");
-    private final PaperPlugin plugin;
+    private final PaperUtils plugin;
 
-    public JailWandItem(PaperPlugin plugin){
+    public JailWandItem(PaperUtils plugin){
         this.plugin = plugin;
     }
 
@@ -64,13 +64,13 @@ public class JailWandItem implements Listener {
         player.sendMessage(Component.text("Jail Location" + clicks + "/3 set!", NamedTextColor.YELLOW));
         if (clicks >= 3){
             Location loc = e.getClickedBlock().getLocation();
-            PaperPlugin.jailLocation = loc;
+            PaperUtils.jailLocation = loc;
             player.sendMessage(Component.text("Jail location set!", NamedTextColor.GREEN));
             clickCount.remove(player.getUniqueId());
             lastLocation.remove(player.getUniqueId());
 
-            PaperPlugin.jailLocation = loc;
-            CustomConfig.saveJailLocation(PaperPlugin.jailLocation);
+            PaperUtils.jailLocation = loc;
+            CustomConfig.saveJailLocation(PaperUtils.jailLocation);
         }
     }
 }
