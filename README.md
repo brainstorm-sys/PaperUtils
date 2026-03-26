@@ -1,8 +1,8 @@
 # PaperUtils (Overview)
 
-A simple PaperPlugin mainly designed for Multiplayer servers. The plugin contains various features listed below that makes the overall multiplayer experience much better both for moderators, as well as the players.
-The Plugin mainly focuses on basic features of servers, custom items, commands and Modeartion which is a key part of any SMP's to function well.
-This Repo is going to be updated very friequently since this is one of my recent projects and since I've been new to Java, you're free to point out mistakes in my code!
+A lightweight Paper plugin designed primarily for multiplayer servers. It includes a variety of features aimed at enhancing the overall gameplay experience for both players and moderators. The plugin focuses on essential server functionality, including custom items, commands, and moderation tools—key components for maintaining a smooth and well-managed SMP environment.
+
+This repository will be updated frequently, as it is one of my recent projects and part of my journey learning Java. Feedback and suggestions are always welcome, so feel free to point out any issues or improvements!
 Key functions/commands and requirements are given below:
 
 
