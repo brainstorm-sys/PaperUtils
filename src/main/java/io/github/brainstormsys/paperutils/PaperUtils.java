@@ -25,7 +25,7 @@ public final class PaperUtils extends JavaPlugin implements Listener {
 
     private static final String PACK_URL =
             "https://github.com/brainstorm-sys/PaperUtils/releases/download/v1.0/ArbitersCrossbow.zip";
-    private static final String WAND_URL =
+    private static final String JAIL_URL =
             "https://github.com/brainstorm-sys/PaperUtils/releases/download/v1.0/JailWand.zip";
     private static final Component PROMPT = Component.text(
             "You have to download the ResourcePack in order to join the server",
@@ -91,20 +91,27 @@ public final class PaperUtils extends JavaPlugin implements Listener {
         Player player = e.getPlayer();
 
         getServer().getScheduler().runTaskLater(this, () -> {
-            if(player.isOnline()){
+            if(player.isOnline()) {
+                try {
+                    ResourcePackInfo pack = ResourcePackInfo.resourcePackInfo()
+                            .uri(URI.create(PACK_URL))
+                            .id(UUID.randomUUID())
+                            .computeHashAndBuild().get();
 
-                ResourcePackInfo pack = ResourcePackInfo.resourcePackInfo()
-                        .hash("")
-                        .uri(URI.create(PACK_URL))
-                        .uri(URI.create(WAND_URL))
-                        .id(UUID.randomUUID())
-                        .build();
+                    ResourcePackInfo jailpack = ResourcePackInfo.resourcePackInfo()
+                            .uri(URI.create(JAIL_URL))
+                            .id(UUID.randomUUID())
+                            .computeHashAndBuild().get();
 
-                ResourcePackRequest request = ResourcePackRequest.resourcePackRequest()
-                        .packs(pack)
-                        .prompt(PROMPT)
-                        .required(true)
-                        .build();
+                    List<ResourcePackInfoLike> packs = new ArrayList<>();
+                    packs.add(pack);
+                    packs.add(jailpack); // i did this shi
+
+                    ResourcePackRequest request = ResourcePackRequest.resourcePackRequest()
+                            .packs(pack) // PACK NOT PACKS
+                            .prompt(PROMPT)
+                            .required(true)
+                            .build();
 
                 player.sendResourcePacks(request);
 
