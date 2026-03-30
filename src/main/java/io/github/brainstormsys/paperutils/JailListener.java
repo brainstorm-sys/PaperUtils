@@ -148,11 +148,4 @@ public class JailListener implements Listener {
         JailData.jailcall(target);
         player.sendMessage(Component.text("Player Jailed!", NamedTextColor.DARK_RED));
     }
-
-    @EventHandler
-    public void resourcepackhandler(PlayerJoinEvent e){
-        Player player = e.getPlayer();
-        player.setResourcePack();
-
-    }
 }
