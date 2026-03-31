@@ -24,9 +24,7 @@ public final class PaperUtils extends JavaPlugin implements Listener {
     //test configurations
 
     private static final String PACK_URL =
-            "https://github.com/brainstorm-sys/PaperUtils/releases/download/v1.0/ArbitersCrossbow.zip";
-    private static final String JAIL_URL =
-            "https://github.com/brainstorm-sys/PaperUtils/releases/download/v1.0/JailWand.zip";
+            "https://github.com/brainstorm-sys/PaperUtils/releases/download/v1.0/ResourcePack.zip";
     private static final Component PROMPT = Component.text(
             "You have to download the ResourcePack in order to join the server",
             NamedTextColor.YELLOW
@@ -98,17 +96,8 @@ public final class PaperUtils extends JavaPlugin implements Listener {
                             .id(UUID.randomUUID())
                             .computeHashAndBuild().get();
 
-                    ResourcePackInfo jailpack = ResourcePackInfo.resourcePackInfo()
-                            .uri(URI.create(JAIL_URL))
-                            .id(UUID.randomUUID())
-                            .computeHashAndBuild().get();
-
-                    List<ResourcePackInfoLike> packs = new ArrayList<>();
-                    packs.add(pack);
-                    packs.add(jailpack); // i did this shi
-
                     ResourcePackRequest request = ResourcePackRequest.resourcePackRequest()
-                            .packs(pack) // PACK NOT PACKS
+                            .packs(pack)
                             .prompt(PROMPT)
                             .required(true)
                             .build();
