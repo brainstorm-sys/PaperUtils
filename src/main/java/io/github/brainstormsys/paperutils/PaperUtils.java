@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerResourcePackStatusEvent;
 import org.bukkit.inventory.BlastingRecipe;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -36,6 +37,10 @@ public final class PaperUtils extends JavaPlugin implements Listener {
             "You have to download the ResourcePack in order to join the server",
             NamedTextColor.YELLOW
     );
+
+    public static final Key LOW_PURITY = Key.key("arbiters_crossbow", "low_purity");
+    public static final Key LOWMID_PURITY = Key.key("arbiters_crossbow", "lowmid_purity");
+    public static final Key MID_PURITY = Key.key("arbiters_crossbow", "mid_purity");
     public static final Key CRYSTALMETH = Key.key("arbiters_crossbow", "crystal");
 
     @Override
@@ -72,22 +77,49 @@ public final class PaperUtils extends JavaPlugin implements Listener {
     }
 
     public void registerRecipies(){
-        //test for now
+        //test for now jesus the amount of shit code
         NamespacedKey key = new NamespacedKey(this, "amythist_to_crystal");
 
         BlastingRecipe recipe = new BlastingRecipe(
                 key,
-                CrystalMeth.getmeth(),
+                CrystalMeth.getlowpurity(),
                 Material.AMETHYST_SHARD,
                 1.0f,
-                200
+                140
 
         );
 
         Bukkit.addRecipe(recipe);
 
-        getLogger().info("test completed (def meth)");
+        BlastingRecipe recipe1 = new BlastingRecipe(
+                new NamespacedKey(this, "crystalstage2"),
+                CrystalMeth.lowmidpurity(),
+                new RecipeChoice.ExactChoice(CrystalMeth.getlowpurity()),
+                1.0f,
+                140
+        );
 
+        Bukkit.addRecipe(recipe1);
+
+        BlastingRecipe recipe2 = new BlastingRecipe(
+                new NamespacedKey(this, "crystalstage3"),
+                CrystalMeth.midpurity(),
+                new RecipeChoice.ExactChoice(CrystalMeth.lowmidpurity()),
+                1.0f,
+                140
+        );
+
+        Bukkit.addRecipe(recipe2);
+
+        BlastingRecipe recipe3 = new BlastingRecipe(
+                new NamespacedKey(this, "crystalstage4"),
+                CrystalMeth.getmeth(),
+                new RecipeChoice.ExactChoice(CrystalMeth.midpurity()),
+                1.0f,
+                140
+        );
+
+        Bukkit.addRecipe(recipe3);
     }
 
     @Override
@@ -105,6 +137,9 @@ public final class PaperUtils extends JavaPlugin implements Listener {
         CustomItem.itemcomm();
         JailWandItem.gibitemjailwand();
         CrystalMeth.getmeth();
+        CrystalMeth.getlowpurity();
+        CrystalMeth.lowmidpurity();
+        CrystalMeth.midpurity();
     }
 
     @Override
@@ -223,19 +258,53 @@ public final class PaperUtils extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-
     public void onConsume(PlayerItemConsumeEvent e){
         ItemStack item = e.getItem();
         Player player = e.getPlayer();
 
-        if(item.getType() != Material.HONEY_BOTTLE) return;
+        // Changed to DRIED_KELP  cuz low eat time. but im dumb i couldve js used .consumetime()
+        if(item.getType() != Material.DRIED_KELP) return;
 
         Key model = item.getData(DataComponentTypes.ITEM_MODEL);
-        if(!CRYSTALMETH.equals(model)) return;
+        if(model == null) return;
 
-        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80, 0));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 80, 9));
-        player.addPotionEffect(new PotionEffect(PotionEffectType.NAUSEA, 80, 0));
+        e.setReplacement(null);
+
+        // Pure Crystal (99.3%)
+        if(CRYSTALMETH.equals(model)){
+            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80, 0));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 80, 9));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.NAUSEA, 80, 0));
+            player.playSound(player, "arbiters_crossbow:crystal_smell", 1.0f, 1.0f);
+            return;
+        }
+
+        // Low Purity (20%)
+        if(LOW_PURITY.equals(model)){
+            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80, 0));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 80, 1));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.NAUSEA, 80, 0));
+            player.playSound(player, "arbiters_crossbow:crystal_smell", 1.0f, 1.0f);
+            return;
+        }
+
+        // Low-Mid Purity (40%)
+        if(LOWMID_PURITY.equals(model)){
+            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80, 0));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 80, 2));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.NAUSEA, 80, 0));
+            player.playSound(player, "arbiters_crossbow:crystal_smell", 1.0f, 1.0f);
+            return;
+        }
+
+        // Mid Purity (60%)
+        if(MID_PURITY.equals(model)){
+            player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 80, 0));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 80, 5));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.NAUSEA, 80, 0));
+            player.playSound(player, "arbiters_crossbow:crystal_smell", 1.0f, 1.0f);
+            return;
+        }
     }
 
 
