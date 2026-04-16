@@ -26,7 +26,7 @@ public class JailListener implements Listener {
         Player player = e.getPlayer();
         if (JailData.jailedPlayers.containsKey(player.getUniqueId())) {
             Location confirm = JailData.jailedPlayers.get(player.getUniqueId());
-            if (player.getLocation().distance(confirm) > 1) {
+            if (player.getLocation().distance(confirm) > 4) {
                 player.teleport(confirm);
                 player.sendMessage("§4Moving or Teleporting not allowed!");
                 player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1f, 1f);

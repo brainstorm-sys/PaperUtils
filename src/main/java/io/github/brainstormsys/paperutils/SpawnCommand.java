@@ -1,6 +1,8 @@
 package io.github.brainstormsys.paperutils;
 
 import dev.jorel.commandapi.CommandAPICommand;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -8,12 +10,31 @@ import org.bukkit.Sound;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
 
 public class SpawnCommand {
+
+    private static Set<UUID> spawncooldown = new HashSet<>();
 
     public static void spawncomm(){
         new CommandAPICommand("spawn")  //-2694, -1551, 78
                 .executesPlayer((player, commandArguments) ->{
+
+                    if(spawncooldown.contains(player.getUniqueId())){
+                        player.sendActionBar(Component.text("⏳ You're on cooldown!", NamedTextColor.RED));
+                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_DIDGERIDOO, 0.6f, 1f);
+                        return;
+                    }
+
+                    spawncooldown.add(player.getUniqueId());
+
+                    player.getServer().getScheduler().runTaskLater(PaperUtils.getInstance(), () -> {
+                        spawncooldown.remove(player.getUniqueId());
+                    }, 100L);
+
                     player.sendMessage("§6Teleporting in 5 seconds, §4DONT MOVE!");
                     Location startLocation = player.getLocation();
                     new BukkitRunnable(){
@@ -31,7 +52,7 @@ public class SpawnCommand {
                             }
 
                             if (countdown == 0){
-                                player.teleport(new Location(Bukkit.getWorlds().get(0), -2648, 73, -2163, player.getYaw(), player.getPitch()));
+                                player.teleport(new Location(Bukkit.getWorlds().get(0), -3076, 102, 4172, player.getYaw(), player.getPitch()));
                                 player.sendMessage("§2Teleportation Successful!");
                                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
                                 player.getWorld().spawnParticle(

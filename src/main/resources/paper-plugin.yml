@@ -2,6 +2,3 @@ name: Paper_Utils
 version: '1.0-SNAPSHOT'
 main: io.github.brainstormsys.paperutils.PaperUtils
 api-version: '1.21'
-permissions:
-  paperplugin.mods:
-    description: "Mods, part of the Staff team"

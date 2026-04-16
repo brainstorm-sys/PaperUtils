@@ -8,6 +8,8 @@ import io.papermc.paper.datacomponent.item.consumable.ItemUseAnimation;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -35,7 +37,8 @@ public class CrystalMeth implements Listener {
     public static final Key MID_PURITY = Key.key("arbiters_crossbow", "mid_purity");
     public static final Key CRYSTAL_MODEL = Key.key("arbiters_crossbow", "crystal");
     // --------------------------------------------------------------------------------------------------
-
+    public static final Key SNIFF_SOUND = Key.key("arbiters_crossbow", "crystal_sniff");
+    public static final Key EMPTY = Key.key("minecraft", "intentionally_empty");
     public static ItemStack getlowpurity(){
         ItemStack lowpurity = new ItemStack(Material.DRIED_KELP);
         lowpurity.setData(DataComponentTypes.ITEM_MODEL, LOW_PURITY);
@@ -52,14 +55,16 @@ public class CrystalMeth implements Listener {
         lowpurity.setData(DataComponentTypes.CONSUMABLE,
                 Consumable.consumable()
                         .consumeSeconds(1.0f)
-                        .animation(ItemUseAnimation.BOW)
-                        .sound(Key.key("minecraft", "intentionally_empty"))
+                        .animation(ItemUseAnimation.BOW)//arbiters_crossbow:crystal_sniff
+                        .sound(EMPTY)
                         .hasConsumeParticles(false)
                         .build()
                 );
 
         ItemMeta meta = lowpurity.getItemMeta();
-        meta.displayName(Component.text("Un-pure Crystals", NamedTextColor.GRAY));
+        meta.displayName(Component.text("Un-pure Crystals", NamedTextColor.GRAY)
+                .decoration(TextDecoration.ITALIC, false)
+        );
         meta.lore(List.of(
                 Component.empty(),
                 Component.text("Purity: 60%", NamedTextColor.BLUE),
@@ -85,14 +90,16 @@ public class CrystalMeth implements Listener {
         lowmidpurity.setData(DataComponentTypes.CONSUMABLE,
                 Consumable.consumable()
                         .consumeSeconds(1.0f)
-                        .animation(ItemUseAnimation.BOW)
-                        .sound(Key.key("minecraft", "intentionally_empty"))
+                        .animation(ItemUseAnimation.BOW)//arbiters_crossbow:crystal_sniff
+                        .sound(EMPTY)
                         .hasConsumeParticles(false)
                         .build()
         );
 
         ItemMeta meta = lowmidpurity.getItemMeta();
-        meta.displayName(Component.text("Un-pure Crystals", NamedTextColor.GRAY));
+        meta.displayName(Component.text("Un-pure Crystals", NamedTextColor.GRAY)
+                .decoration(TextDecoration.ITALIC, false)
+        );
         meta.lore(List.of(
                 Component.empty(),
                 Component.text("Purity: 80%", NamedTextColor.BLUE),
@@ -119,13 +126,15 @@ public class CrystalMeth implements Listener {
                 Consumable.consumable()
                         .consumeSeconds(1.0f)
                         .animation(ItemUseAnimation.BOW)
-                        .sound(Key.key("minecraft", "intentionally_empty"))
+                        .sound(EMPTY)
                         .hasConsumeParticles(false)
                         .build()
         );
 
         ItemMeta meta = midpurity.getItemMeta();
-        meta.displayName(Component.text("Un-pure Crystals", NamedTextColor.GRAY));
+        meta.displayName(Component.text("Un-pure Crystals", NamedTextColor.GRAY)
+                .decoration(TextDecoration.ITALIC, false)
+        );
         meta.lore(List.of(
                 Component.empty(),
                 Component.text("Purity: 90%", NamedTextColor.BLUE),
@@ -152,13 +161,15 @@ public class CrystalMeth implements Listener {
                 Consumable.consumable()
                         .consumeSeconds(1.0f)
                         .animation(ItemUseAnimation.BOW)
-                        .sound(Key.key("minecraft", "intentionally_empty"))
+                        .sound(EMPTY)
                         .hasConsumeParticles(false)
                         .build()
         );
 
         ItemMeta meta = meth.getItemMeta();
-        meta.displayName(Component.text("Sweet Crystals", NamedTextColor.BLUE));
+        meta.displayName(MiniMessage.miniMessage().deserialize(
+                "<gradient:#3A7C85:#67E2F3><bold><italic:false>Sweet Crystals</italic:false><bold></gradient>"
+        ));
         meta.lore(List.of(
                 Component.empty(),
                 Component.text("Purity: 99.3%", NamedTextColor.BLUE),

@@ -5,6 +5,7 @@ import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -24,7 +25,9 @@ public class JailWandItem implements Listener {
         ItemStack jailwand = new ItemStack(Material.BLAZE_ROD);
         jailwand.setData(DataComponentTypes.ITEM_MODEL, Key.key("arbiters_crossbow", "jail_rod"));//arbiters_crossbow:jail_rod
         ItemMeta meta = jailwand.getItemMeta();
-        meta.displayName(Component.text("Jail Wand", NamedTextColor.GRAY));
+        meta.displayName(MiniMessage.miniMessage().deserialize(
+                "<gradient:#555555:#292828><bold><italic:false>Jail Wand</italic:false></bold></gradient>"
+        ));
         jailwand.setItemMeta(meta);
 
         return jailwand;
@@ -32,6 +35,7 @@ public class JailWandItem implements Listener {
 
     public static void gibitemjailwand(){
         new CommandAPICommand("gibjailwand")
+                .withPermission("paperplugin.moderators")
                 .executesPlayer((player, commandArguments) -> {
                     player.give(getJailWand());
                 })
@@ -54,6 +58,7 @@ public class JailWandItem implements Listener {
         Player player = e.getPlayer();
         ItemStack wand = player.getInventory().getItemInMainHand();
         Key model = wand.getData(DataComponentTypes.ITEM_MODEL);
+        if (model == null) return;
         if (!model.equals(jailwandKey)) return;
 
         Location blocloc = e.getClickedBlock().getLocation();
