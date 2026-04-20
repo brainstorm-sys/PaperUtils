@@ -23,29 +23,33 @@ public class SpawnCommand {
                         @Override
 
                         public void run(){
-                            if (player.getLocation().distance(startLocation) > 0.1){
-                                player.sendMessage("§4You moved!! Teleportation has been cancelled");
-                                player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1f, 1f);
-                                cancel();
-                                return;
-                            }
+                            try {
+                                if (player.getLocation().distance(startLocation) > 0.1){
+                                    player.sendMessage("§4You moved!! Teleportation has been cancelled");
+                                    player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1f, 1f);
+                                    cancel();
+                                    return;
+                                }
 
-                            if (countdown == 0){
-                                player.teleport(new Location(Bukkit.getWorlds().get(0), -2648, 73, -2163, player.getYaw(), player.getPitch()));
-                                player.sendMessage("§2Teleportation Successful!");
-                                player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
-                                player.getWorld().spawnParticle(
+                                if (countdown == 0){
+                                    player.teleport(new Location(Bukkit.getWorlds().get(0), -2648, 73, -2163, player.getYaw(), player.getPitch()));
+                                    player.sendMessage("§2Teleportation Successful!");
+                                    player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
+                                    player.getWorld().spawnParticle(
                                         Particle.GLOW_SQUID_INK,
                                         player.getLocation(),
                                         100
-                                );
-                                cancel();
-                                return;
-                            }
-                            player.sendTitle("§aTeleporting in ", countdown+" §aSeconds", 0, 25, 5 );
-                            player.playSound(player, Sound.UI_BUTTON_CLICK, 1f, 1f);
-                            countdown--;
+                                    );
+                                    cancel();
+                                    return;
+                                }
+                                player.sendTitle("§aTeleporting in ", countdown+" §aSeconds", 0, 25, 5 );
+                                player.playSound(player, Sound.UI_BUTTON_CLICK, 1f, 1f);
+                                countdown--;
 
+                            } catch (Exception ignored) {
+                                cancel();
+                            }
                         }
                     } .runTaskTimer(JavaPlugin.getPlugin(PaperUtils.class), 0L, 20L);
 
