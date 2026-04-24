@@ -342,6 +342,8 @@ public final class PaperUtils extends JavaPlugin implements Listener {
             );
         }
     }
+
+
     @EventHandler
     public void onEatEvent(PlayerItemConsumeEvent e){
         Player player = e.getPlayer();

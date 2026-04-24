@@ -51,8 +51,8 @@ public class SpawnCommand {
                                 return;
                             }
 
-                            if (countdown == 0){
-                                player.teleport(new Location(Bukkit.getWorlds().get(0), -3076, 102, 4172, player.getYaw(), player.getPitch()));
+                            if (countdown == 0){//-2939 108 4153
+                                player.teleport(new Location(Bukkit.getWorlds().get(0), -2939, 108, 4153, player.getYaw(), player.getPitch()));
                                 player.sendMessage("§2Teleportation Successful!");
                                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
                                 player.getWorld().spawnParticle(
