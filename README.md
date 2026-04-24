@@ -25,6 +25,8 @@ Gives the JailWand
 🔒 Permission required: moderator
 _Used to set or modify jail locations._
 
+Added Sweet crystals, with purity status (more purity if cooked more on Blast Furnace), to obtain, cook amythiest shard in a Blast Furnace.
+
 ## 🚀 Installation
 
 1. Download the latest `.jar` file from the **Releases** section.
