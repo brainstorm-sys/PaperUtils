@@ -59,6 +59,7 @@ public final class PaperUtils extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new JailListener(this), this);
         getServer().getPluginManager().registerEvents(new JailWandItem(this), this);
         getServer().getPluginManager().registerEvents(new CrystalMeth(this), this);
+        getServer().getPluginManager().registerEvents(new EnderiteLogic(this), this);
         BurgerLogic.registerRecipe();
         registerRecipies();
 
@@ -146,6 +147,7 @@ public final class PaperUtils extends JavaPlugin implements Listener {
         CrystalMeth.lowmidpurity();
         CrystalMeth.midpurity();
         FartCommand.onFart();
+        EnderiteLogic.enderComs();
     }
 
     @Override
@@ -359,5 +361,7 @@ public final class PaperUtils extends JavaPlugin implements Listener {
     }
 
 
+
+    // ----- ENDERITE LOGICS --------
 
 }

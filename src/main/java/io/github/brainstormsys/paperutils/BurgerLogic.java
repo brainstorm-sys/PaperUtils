@@ -18,6 +18,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import javax.naming.Name;
+import java.awt.print.Paper;
 import java.util.List;
 
 public class BurgerLogic implements Listener {
@@ -81,6 +83,7 @@ public class BurgerLogic implements Listener {
         return sushi;
     }
 
+
     public static void registerRecipe(){
         NamespacedKey key = new NamespacedKey(PaperUtils.getInstance(), "burger");
         ShapedRecipe recipe = new ShapedRecipe(key, getBurger());
@@ -123,5 +126,38 @@ public class BurgerLogic implements Listener {
         recipe1.setIngredient('A', Material.BEETROOT);
         PaperUtils.getInstance().getServer().addRecipe(recipe1);
 
+        // ------------------------ ENDERITE ------------------
+
+        NamespacedKey key2 = new NamespacedKey(PaperUtils.getInstance(), "enderite");
+        ShapedRecipe recipe3 = new ShapedRecipe(key2, EnderiteLogic.getSword());
+
+        recipe3.shape(
+                "C",
+                "S",
+                "E"
+        );
+
+        recipe3.setIngredient('C', new RecipeChoice.ExactChoice(EnderiteLogic.getEnderite()));
+        recipe3.setIngredient('S', Material.NETHERITE_SWORD);
+        recipe3.setIngredient('E', Material.ENDER_EYE);
+        PaperUtils.getInstance().getServer().addRecipe(recipe3);
+
+        // helmet
+
+        NamespacedKey key4 = new NamespacedKey(PaperUtils.getInstance(), "helmet");
+        ShapedRecipe recipe4 = new ShapedRecipe(key4, EnderiteLogic.getHelmet());
+
+        recipe4.shape(
+                "C",
+                "H",
+                "E"
+        );
+        recipe4.setIngredient('C', new RecipeChoice.ExactChoice(EnderiteLogic.getEnderite()));
+        recipe4.setIngredient('H', Material.NETHERITE_HELMET);
+        recipe4.setIngredient('E', Material.ENDER_EYE);
+        PaperUtils.getInstance().getServer().addRecipe(recipe4);
+
     }
+
+
 }
