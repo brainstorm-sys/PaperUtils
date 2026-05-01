@@ -5,6 +5,7 @@ import dev.jorel.commandapi.CommandAPIPaperConfig;
 import io.github.brainstormsys.paperutils.listeners.EnderiteListener;
 import io.github.brainstormsys.paperutils.listeners.JailWandListener;
 import io.github.brainstormsys.paperutils.listeners.MethListener;
+import io.github.brainstormsys.paperutils.listeners.WorldInitializationListener;
 import io.github.brainstormsys.paperutils.manager.Commands;
 import io.github.brainstormsys.paperutils.manager.ConfigManager;
 import io.github.brainstormsys.paperutils.manager.ItemManager;
@@ -37,6 +38,7 @@ public final class PaperUtils extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new JailWandListener(itemManager), this);
         getServer().getPluginManager().registerEvents(new MethListener(itemManager), this);
         getServer().getPluginManager().registerEvents(new EnderiteListener(itemManager), this);
+        getServer().getPluginManager().registerEvents(new WorldInitializationListener(), this);
 
         commands.register();
         recipe.register();
