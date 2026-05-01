@@ -1,6 +1,8 @@
-package io.github.brainstormsys.paperutils;
+package io.github.brainstormsys.paperutils.listeners;
 
 import com.destroystokyo.paper.event.player.PlayerLaunchProjectileEvent;
+import io.github.brainstormsys.paperutils.JailData;
+import io.github.brainstormsys.paperutils.manager.ItemManager;
 import io.papermc.paper.datacomponent.DataComponentTypes;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
@@ -22,7 +24,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class JailListener implements Listener {
     @EventHandler
-    public void movementdetect(PlayerMoveEvent e) {
+    public void OnPlayerMove(PlayerMoveEvent e) {
         Player player = e.getPlayer();
         if (JailData.jailedPlayers.containsKey(player.getUniqueId())) {
             Location confirm = JailData.jailedPlayers.get(player.getUniqueId());
@@ -36,7 +38,7 @@ public class JailListener implements Listener {
     }
 
     @EventHandler
-    public void placedetect(BlockPlaceEvent e) {
+    public void OnPlayerPlace(BlockPlaceEvent e) {
         Player player = e.getPlayer();
         if (JailData.jailedPlayers.containsKey(player.getUniqueId())) {
             player.sendMessage("§4You can't Place Blocks!");
@@ -46,7 +48,7 @@ public class JailListener implements Listener {
     }
 
     @EventHandler
-    public void breakdetect(BlockBreakEvent e) {
+    public void OnPlayerBreak(BlockBreakEvent e) {
         Player player = e.getPlayer();
         if (JailData.jailedPlayers.containsKey(player.getUniqueId())) {
             player.sendMessage("§4You can't Break Blocks!");
@@ -56,7 +58,7 @@ public class JailListener implements Listener {
     }
 
     @EventHandler
-    public void vehicleenter(VehicleEnterEvent e) {
+    public void OnPlayerEnterVehicle(VehicleEnterEvent e) {
         if ((e.getEntered() instanceof Player player)) {
             if (JailData.jailedPlayers.containsKey(player.getUniqueId())) {
                 player.sendMessage("§4You can't enter Vehicles!");
@@ -67,7 +69,7 @@ public class JailListener implements Listener {
     }
 
     @EventHandler
-    public void dimensionenter(PlayerPortalEvent e) {
+    public void OnPlayerDimensionSwitch(PlayerPortalEvent e) {
         Player player = e.getPlayer();
         if (JailData.jailedPlayers.containsKey(player.getUniqueId())) {
             player.sendMessage("§4You cant enter other dimensions!");
@@ -77,7 +79,7 @@ public class JailListener implements Listener {
     }
 
     @EventHandler
-    public void teleport(PlayerTeleportEvent e) {
+    public void OnPlayerTeleport(PlayerTeleportEvent e) {
         Player player = e.getPlayer();
         if (JailData.jailedPlayers.containsKey(player.getUniqueId())) {
             if (e.getCause() == PlayerTeleportEvent.TeleportCause.PLUGIN) {
@@ -91,7 +93,7 @@ public class JailListener implements Listener {
     }
 
     @EventHandler
-    public void cmd(PlayerCommandPreprocessEvent e) {
+    public void OnPlayerCommand(PlayerCommandPreprocessEvent e) {
         Player player = e.getPlayer();
         if (JailData.jailedPlayers.containsKey(player.getUniqueId())) {
             player.sendMessage("§4You sneaky! Can't type commands btw.");
@@ -101,7 +103,7 @@ public class JailListener implements Listener {
     }
 
     @EventHandler
-    public void respawnloc(PlayerRespawnEvent e) {
+    public void OnPlayerRespawn(PlayerRespawnEvent e) {
         Player player = e.getPlayer();
         if (JailData.jailedPlayers.containsKey(player.getUniqueId())) {
             Location jailloc = JailData.jailedPlayers.get(player.getUniqueId());
@@ -110,22 +112,21 @@ public class JailListener implements Listener {
     }
 
     private final JavaPlugin plugin;
-    private final NamespacedKey key;
-    private final Key crossbowKey = Key.key("arbiters_crossbow:crossbow");
+    private final ItemManager itemManager;
 
-    public JailListener(JavaPlugin plugin) {
+    public JailListener(JavaPlugin plugin, ItemManager itemManager) {
         this.plugin = plugin;
-        this.key = new NamespacedKey(plugin, "arbiters_crossbow");
+        this.itemManager = itemManager;
     }
 
     @EventHandler
-    public void jailcrossbow(PlayerLaunchProjectileEvent e) {
+    public void OnPlayerLaunchCrossbow(PlayerLaunchProjectileEvent e) {
         System.out.println("EVENT FIRED");
 
         Player hurter = e.getPlayer();
 
-        Key key = hurter.getInventory().getItemInMainHand().getData(DataComponentTypes.ITEM_MODEL);
-        if (Key.key("arbiters_crossbow", "crossbow").equals(key)) {
+        ItemStack item = hurter.getInventory().getItemInMainHand();
+        if (itemManager.getItemId(item).equals("crossbow")) {
             System.out.println("Test done (launch event)");
 
     }
@@ -138,9 +139,7 @@ public class JailListener implements Listener {
         if (!(e.getHitEntity() instanceof Player target)) return;
         ItemStack crossbow = player.getInventory().getItemInMainHand();
 
-        Key model = crossbow.getData(DataComponentTypes.ITEM_MODEL);
-
-        if (!model.equals(crossbowKey)) return;
+        if (!itemManager.getItemId(crossbow).equals("crossbow")) return;
         JailData.jailcall(target);
         player.sendMessage(Component.text("Player Jailed!", NamedTextColor.DARK_RED));
         System.out.println("Test completed");
