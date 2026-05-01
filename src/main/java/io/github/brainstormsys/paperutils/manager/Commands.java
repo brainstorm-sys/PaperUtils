@@ -8,17 +8,26 @@ import io.github.brainstormsys.paperutils.JailData;
 import io.github.brainstormsys.paperutils.PaperUtils;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 public class Commands {
 
     private final ItemManager itemManager;
     private final Plugin plugin;
+
+    private static Set<UUID> spawnCooldown = new HashSet<>();
+
 
     public Commands(JavaPlugin plugin, ItemManager itemManager) {
         this.plugin = plugin;
@@ -31,7 +40,9 @@ public class Commands {
                 .withSubcommand(jail())
                 .withSubcommand(unjail())
                 .withSubcommand(items())
+                .withSubcommand(spawn())
                 .register();
+
     }
 
     private CommandAPICommand items() {
@@ -84,6 +95,60 @@ public class Commands {
                         target.sendMessage("§aYou've been unjailed!");
                         target.sendTitle("§aYou've been unjailed!", "");
                     }
+                });
+    }
+
+    private CommandAPICommand spawn() {
+        return new CommandAPICommand("spawn")  //-2694, -1551, 78
+                .executesPlayer((player, commandArguments) ->{
+
+                    if(spawnCooldown.contains(player.getUniqueId())){
+                        player.sendActionBar(Component.text("⏳ You're on cooldown!", NamedTextColor.RED));
+                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_DIDGERIDOO, 0.6f, 1f);
+                        return;
+                    }
+
+                    spawnCooldown.add(player.getUniqueId());
+
+                    player.getServer().getScheduler().runTaskLater(PaperUtils.getInstance(), () -> {
+                        spawnCooldown.remove(player.getUniqueId());
+                    }, 100L);
+
+                    player.sendMessage("§6Teleporting in 5 seconds, §4DONT MOVE!");
+                    Location startLocation = player.getLocation();
+                    new BukkitRunnable(){
+
+                        int countdown = 5;
+
+                        @Override
+
+                        public void run(){
+                            if (player.getLocation().distance(startLocation) > 0.1){
+                                player.sendMessage("§4You moved!! Teleportation has been cancelled");
+                                player.playSound(player, Sound.BLOCK_NOTE_BLOCK_BASS, 1f, 1f);
+                                cancel();
+                                return;
+                            }
+
+                            if (countdown == 0){//-2939 108 4153
+                                player.teleport(new Location(Bukkit.getWorlds().get(0), -2939, 108, 4153, player.getYaw(), player.getPitch()));
+                                player.sendMessage("§2Teleportation Successful!");
+                                player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1f);
+                                player.getWorld().spawnParticle(
+                                        Particle.GLOW_SQUID_INK,
+                                        player.getLocation(),
+                                        100
+                                );
+                                cancel();
+                                return;
+                            }
+                            player.sendTitle("§aTeleporting in ", countdown+" §aSeconds", 0, 25, 5 );
+                            player.playSound(player, Sound.UI_BUTTON_CLICK, 1f, 1f);
+                            countdown--;
+
+                        }
+                    } .runTaskTimer(JavaPlugin.getPlugin(PaperUtils.class), 0L, 20L);
+
                 });
     }
 }
