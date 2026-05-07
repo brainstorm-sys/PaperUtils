@@ -61,6 +61,7 @@ public final class PaperUtils extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new EnderiteLogic(this), this);
         Recipes.registerRecipe();
         getServer().getPluginManager().registerEvents(new EnderiteLogic(this), this);
+        getServer().getPluginManager().registerEvents(new ShockWaveAbility(this), this);
         EnderiteLogic.startWaterDamageTaskshi();
         registerRecipies();
 

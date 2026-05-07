@@ -31,7 +31,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.naming.Name;
 import java.awt.print.Paper;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 public class EnderiteLogic implements Listener {
 
@@ -135,7 +138,7 @@ public class EnderiteLogic implements Listener {
 
     // ============ SWORD LOGIC =============//
 
-    public static final int COOLDOWN_TICKS = 20 * 10;
+    public static final int COOLDOWN_TICKS = 20 * 5;
     // js to define shit
     public EnderiteLogic(PaperUtils plugin){
     }
@@ -199,7 +202,7 @@ public class EnderiteLogic implements Listener {
                         .addModifier(Attribute.ARMOR,
                                 new AttributeModifier(
                                         new NamespacedKey(PaperUtils.getInstance(), "Enderite_Head_armor"),
-                                        3,
+                                        10,
                                         AttributeModifier.Operation.ADD_NUMBER
                                 ),
                                 EquipmentSlotGroup.HEAD
@@ -207,11 +210,12 @@ public class EnderiteLogic implements Listener {
                         .addModifier(Attribute.ARMOR_TOUGHNESS,
                                 new AttributeModifier(
                                         new NamespacedKey(PaperUtils.getInstance(), "Enderite_Head_Tuffness"),
-                                        3,
+                                        4,
                                         AttributeModifier.Operation.ADD_NUMBER
                                 ),
                                 EquipmentSlotGroup.HEAD
                                 )
+                        .build()
 
                 );
 
@@ -222,8 +226,6 @@ public class EnderiteLogic implements Listener {
 
         meta.lore(List.of(
                 Component.empty(),
-                Component.text("Grants Night Vision")
-                        .decoration(TextDecoration.ITALIC ,false),
                 Component.text("Be aware of water!", NamedTextColor.LIGHT_PURPLE),
                 Component.text("Teleport upon damage..", NamedTextColor.DARK_PURPLE)
                         .decoration(TextDecoration.ITALIC, false)
@@ -238,6 +240,7 @@ public class EnderiteLogic implements Listener {
     }
 
     public static final int HELMET_COOLDOWN = 20 * 5;
+    private static Set<UUID> cooldown = new HashSet<>();
 
     @EventHandler
     public void onDamage(EntityDamageEvent e){
@@ -246,7 +249,7 @@ public class EnderiteLogic implements Listener {
         ItemStack helmet = player.getInventory().getHelmet();
         if(helmet == null) return;
 
-        if(player.hasCooldown(Material.NETHERITE_SWORD)) return;
+        if(cooldown.contains(player.getUniqueId())) return;
 
         Key model = helmet.getData(DataComponentTypes.ITEM_MODEL);
         if(model == null) return;
@@ -289,6 +292,13 @@ public class EnderiteLogic implements Listener {
 
         e.setCancelled(true);
         player.sendActionBar(Component.text("✦ Dodge!", NamedTextColor.LIGHT_PURPLE));
+
+
+        cooldown.add(player.getUniqueId());
+
+        Bukkit.getScheduler().runTaskLater(PaperUtils.getInstance(), () -> {
+            cooldown.remove(player.getUniqueId());
+        }, COOLDOWN_TICKS);
 
     }
 
@@ -333,11 +343,17 @@ public class EnderiteLogic implements Listener {
 
     // ============ *START* CHESTPLATE LOGIC *START* =============//
 
-    private static final Key CHESTPLATE = Key.key("minecraft","enderite_chestplate");
+    public static final Key CHESTPLATE = Key.key("minecraft","enderite_chestplate");
 
     public static ItemStack getChestplate (){
         ItemStack chestplate = new ItemStack(Material.NETHERITE_CHESTPLATE);
         chestplate.setData(DataComponentTypes.ITEM_MODEL, CHESTPLATE);
+        chestplate.setData(DataComponentTypes.EQUIPPABLE,
+                Equippable.equippable(EquipmentSlot.CHEST)
+                        .assetId(Key.key("minecraft","enderite"))
+                        .build()
+                );
+
         ItemMeta meta = chestplate.getItemMeta();
 
         chestplate.setData(DataComponentTypes.ATTRIBUTE_MODIFIERS,
@@ -345,7 +361,7 @@ public class EnderiteLogic implements Listener {
                         .addModifier(Attribute.ARMOR,
                                 new AttributeModifier(
                                         new NamespacedKey(PaperUtils.getInstance(), "chestplate_armor"),
-                                        3,
+                                        10,
                                         AttributeModifier.Operation.ADD_NUMBER
                                 ),
                         EquipmentSlotGroup.CHEST
@@ -353,11 +369,12 @@ public class EnderiteLogic implements Listener {
                         .addModifier(Attribute.ARMOR_TOUGHNESS,
                                 new AttributeModifier(
                                         new NamespacedKey(PaperUtils.getInstance(), "chestplate_toughness"),
-                                        3,
+                                        4,
                                         AttributeModifier.Operation.ADD_NUMBER
                                 ),
                                 EquipmentSlotGroup.CHEST
                         )
+                        .build()
         );
 
 
@@ -367,7 +384,7 @@ public class EnderiteLogic implements Listener {
 
         meta.lore(List.of(
                 Component.empty(),
-                Component.text("Sneak twice to get special effect ^.^", NamedTextColor.DARK_PURPLE)
+                Component.text("Better than Netherite", NamedTextColor.DARK_PURPLE)
                         .decoration(TextDecoration.ITALIC, false))
         );
 
@@ -380,6 +397,59 @@ public class EnderiteLogic implements Listener {
     }
 
     // ============ *END* CHESTPLATE LOGIC *END* =============//
+
+    // ============ *START* LEGGINGS LOGIC *START* ============//
+
+    public static final Key LEGGINGS_MDOEL = Key.key("minecraft", "enderite_leggings");
+
+    public static ItemStack getLeggings() {
+        ItemStack leggings = new ItemStack(Material.NETHERITE_LEGGINGS);
+
+        ItemMeta meta = leggings.getItemMeta();
+        meta.displayName(MiniMessage.miniMessage().deserialize(
+                "<gradient:#b43fef:#6978f3><bold><!italic>Enderite Leggings</!italic></bold></gradient>"
+        ));
+
+        meta.addEnchant(Enchantment.PROTECTION, 8, true);
+        meta.addEnchant(Enchantment.UNBREAKING, 10, true);
+        meta.addEnchant(Enchantment.MENDING, 1, true);
+
+        leggings.setItemMeta(meta);
+
+
+        leggings.setData(DataComponentTypes.ITEM_MODEL, LEGGINGS_MDOEL);
+
+        leggings.setData(DataComponentTypes.EQUIPPABLE,
+                Equippable.equippable(EquipmentSlot.LEGS)
+                        .assetId(Key.key("minecraft", "enderite"))
+                        .build()
+        );
+
+        leggings.setData(DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                ItemAttributeModifiers.itemAttributes()
+                        .addModifier(Attribute.ARMOR,
+                                new AttributeModifier(
+                                        new NamespacedKey(PaperUtils.getInstance(), "leggings_armor"),
+                                        10,
+                                        AttributeModifier.Operation.ADD_NUMBER
+                                ),
+                                EquipmentSlotGroup.LEGS
+                        )
+                        .addModifier(Attribute.ARMOR_TOUGHNESS,
+                                new AttributeModifier(
+                                        new NamespacedKey(PaperUtils.getInstance(), "leggings_tuff"),
+                                        4,
+                                        AttributeModifier.Operation.ADD_NUMBER
+                                ),
+                                EquipmentSlotGroup.LEGS
+                        )
+                        .build()
+        );
+
+        return leggings;
+    }
+
+    // ============ *END* LEGGINGS LOGIC *END* =============//
 
 
 

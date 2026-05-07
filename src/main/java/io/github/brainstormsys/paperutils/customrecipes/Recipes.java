@@ -168,6 +168,21 @@ public class Recipes implements Listener {
         recipe5.setIngredient('P', Material.ENDER_EYE);
         PaperUtils.getInstance().getServer().addRecipe(recipe5);
 
+        // leggings
+
+        NamespacedKey key6 = new NamespacedKey(PaperUtils.getInstance(), "leggings");
+        ShapedRecipe recipe6 = new ShapedRecipe(key6, EnderiteLogic.getLeggings());
+
+        recipe6.shape(
+                " E ",
+                " L ",
+                " P "
+        );
+        recipe6.setIngredient('E', new RecipeChoice.ExactChoice(EnderiteLogic.getEnderite()));
+        recipe6.setIngredient('L', Material.NETHERITE_LEGGINGS);
+        recipe6.setIngredient('P', Material.ENDER_EYE);
+        PaperUtils.getInstance().getServer().addRecipe(recipe6);
+
     }
 
 
