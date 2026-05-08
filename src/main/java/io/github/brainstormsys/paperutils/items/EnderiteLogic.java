@@ -27,6 +27,7 @@ import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import javax.naming.Name;
@@ -104,10 +105,11 @@ public class EnderiteLogic implements Listener {
 
         meta.lore(List.of(
                 Component.empty(),
-                Component.text("Right-Click to Teleport!", NamedTextColor.LIGHT_PURPLE)
+                Component.text("꩜ Shift and Right-Click to Teleport!", NamedTextColor.LIGHT_PURPLE)
                         .decoration(TextDecoration.ITALIC, false),
-                Component.text("Cooldown: 10 seconds", NamedTextColor.GRAY),
-                Component.text("Greater Heights!")
+                Component.text("  Cooldown: 10 seconds", NamedTextColor.DARK_GRAY)
+                        .decoration(TextDecoration.ITALIC, false),
+                Component.text("  Greater Heights!")
                         .decoration(TextDecoration.ITALIC, false)
         ));
 
@@ -138,7 +140,7 @@ public class EnderiteLogic implements Listener {
 
     // ============ SWORD LOGIC =============//
 
-    public static final int COOLDOWN_TICKS = 20 * 5;
+    public static final int COOLDOWN_TICKS = 20 * 10;
     // js to define shit
     public EnderiteLogic(PaperUtils plugin){
     }
@@ -162,6 +164,8 @@ public class EnderiteLogic implements Listener {
         if(!isEnderSword(item)) return;
 
         if(player.hasCooldown(Material.NETHERITE_SWORD)) return;
+
+        if(!player.isSneaking()) return;
 
         Block block = e.getClickedBlock();
         Location tpLoc = block.getLocation().add(0.5, 1, 0.5);
@@ -215,7 +219,18 @@ public class EnderiteLogic implements Listener {
                                 ),
                                 EquipmentSlotGroup.HEAD
                                 )
+                        .addModifier(Attribute.KNOCKBACK_RESISTANCE,
+                                new AttributeModifier(
+                                        new NamespacedKey(PaperUtils.getInstance(), "knockback"),
+                                        0.1,
+                                        AttributeModifier.Operation.ADD_NUMBER
+                                ),
+                                EquipmentSlotGroup.HEAD
+                        )
+
                         .build()
+
+
 
                 );
 
@@ -226,7 +241,8 @@ public class EnderiteLogic implements Listener {
 
         meta.lore(List.of(
                 Component.empty(),
-                Component.text("Be aware of water!", NamedTextColor.LIGHT_PURPLE),
+                Component.text("Be aware of water!", NamedTextColor.LIGHT_PURPLE)
+                        .decoration(TextDecoration.ITALIC, false),
                 Component.text("Teleport upon damage..", NamedTextColor.DARK_PURPLE)
                         .decoration(TextDecoration.ITALIC, false)
         ));
@@ -239,7 +255,7 @@ public class EnderiteLogic implements Listener {
         return helmet;
     }
 
-    public static final int HELMET_COOLDOWN = 20 * 5;
+    public static final int HELMET_COOLDOWN = 20 * 10;
     private static Set<UUID> cooldown = new HashSet<>();
 
     @EventHandler
@@ -298,7 +314,7 @@ public class EnderiteLogic implements Listener {
 
         Bukkit.getScheduler().runTaskLater(PaperUtils.getInstance(), () -> {
             cooldown.remove(player.getUniqueId());
-        }, COOLDOWN_TICKS);
+        }, HELMET_COOLDOWN);
 
     }
 
@@ -347,14 +363,31 @@ public class EnderiteLogic implements Listener {
 
     public static ItemStack getChestplate (){
         ItemStack chestplate = new ItemStack(Material.NETHERITE_CHESTPLATE);
+        ItemMeta meta = chestplate.getItemMeta();
+        meta.displayName(MiniMessage.miniMessage().deserialize(
+                "<gradient:#B43FEF:#6978F3><!italic><bold>Enderite Chestplate</bold></!italic></gradient>"
+        ));
+
+        meta.lore(List.of(
+                Component.empty(),
+                Component.text("〰 ShockWave", NamedTextColor.LIGHT_PURPLE)
+                        .decoration(TextDecoration.ITALIC, false),
+                Component.text("   Double Sneak to produce shockwave!", NamedTextColor.DARK_GRAY)
+                        .decoration(TextDecoration.ITALIC, false)
+        ));
+
+        meta.addEnchant(Enchantment.PROTECTION, 8, true);
+        meta.addEnchant(Enchantment.UNBREAKING, 10, true);
+        meta.addEnchant(Enchantment.MENDING, 1, true);
+
+        chestplate.setItemMeta(meta);
+
         chestplate.setData(DataComponentTypes.ITEM_MODEL, CHESTPLATE);
         chestplate.setData(DataComponentTypes.EQUIPPABLE,
                 Equippable.equippable(EquipmentSlot.CHEST)
                         .assetId(Key.key("minecraft","enderite"))
                         .build()
                 );
-
-        ItemMeta meta = chestplate.getItemMeta();
 
         chestplate.setData(DataComponentTypes.ATTRIBUTE_MODIFIERS,
                 ItemAttributeModifiers.itemAttributes()
@@ -374,25 +407,16 @@ public class EnderiteLogic implements Listener {
                                 ),
                                 EquipmentSlotGroup.CHEST
                         )
+                        .addModifier(Attribute.KNOCKBACK_RESISTANCE,
+                                new AttributeModifier(
+                                        new NamespacedKey(PaperUtils.getInstance(), "knockback"),
+                                        0.1,
+                                        AttributeModifier.Operation.ADD_NUMBER
+                                ),
+                                EquipmentSlotGroup.CHEST
+                        )
                         .build()
         );
-
-
-        meta.displayName(MiniMessage.miniMessage().deserialize(
-                "<gradient:#B43FEF:#6978F3><!italic><bold>Enderite Chestplate</bold></!italic></gradient>"
-        ));
-
-        meta.lore(List.of(
-                Component.empty(),
-                Component.text("Better than Netherite", NamedTextColor.DARK_PURPLE)
-                        .decoration(TextDecoration.ITALIC, false))
-        );
-
-        meta.addEnchant(Enchantment.PROTECTION, 8, true);
-        meta.addEnchant(Enchantment.UNBREAKING, 10, true);
-        meta.addEnchant(Enchantment.MENDING, 1, true);
-
-        chestplate.setItemMeta(meta);
         return chestplate;
     }
 
@@ -413,6 +437,14 @@ public class EnderiteLogic implements Listener {
         meta.addEnchant(Enchantment.PROTECTION, 8, true);
         meta.addEnchant(Enchantment.UNBREAKING, 10, true);
         meta.addEnchant(Enchantment.MENDING, 1, true);
+
+        meta.lore(List.of(
+                Component.empty(),
+                Component.text("ᯓ Hypr-Lunge", NamedTextColor.LIGHT_PURPLE)
+                        .decoration(TextDecoration.ITALIC, false),
+                Component.text("  Jump and Sneak to Lunge!", NamedTextColor.DARK_GRAY)
+                        .decoration(TextDecoration.ITALIC, false)
+        ));
 
         leggings.setItemMeta(meta);
 
@@ -443,6 +475,15 @@ public class EnderiteLogic implements Listener {
                                 ),
                                 EquipmentSlotGroup.LEGS
                         )
+                        .addModifier(Attribute.KNOCKBACK_RESISTANCE,
+                                new AttributeModifier(
+                                        new NamespacedKey(PaperUtils.getInstance(), "knockback"),
+                                        0.1,
+                                        AttributeModifier.Operation.ADD_NUMBER
+                                ),
+                                EquipmentSlotGroup.LEGS
+                                )
+
                         .build()
         );
 
@@ -452,5 +493,164 @@ public class EnderiteLogic implements Listener {
     // ============ *END* LEGGINGS LOGIC *END* =============//
 
 
+    // ============ *START* LEGGINGS LOGIC *START* ============//
+
+    public static Key BOOTS_MODEL = new NamespacedKey("minecraft","enderite_boots");
+
+    public static ItemStack getBoots(){
+        ItemStack boots = new ItemStack(Material.NETHERITE_BOOTS);
+
+        ItemMeta meta = boots.getItemMeta();
+        meta.displayName(MiniMessage.miniMessage().deserialize(
+                "<gradient:#AB32E9:#4054FA><!italic><bold>Enderite Leggings</bold></!italic></gradient>"
+        ));
+
+        meta.addEnchant(Enchantment.PROTECTION, 8, true);
+        meta.addEnchant(Enchantment.UNBREAKING, 10, true);
+        meta.addEnchant(Enchantment.MENDING, 1, true);
+
+        meta.lore(List.of(
+                Component.empty(),
+                Component.text("⚡ Spped-boost!", NamedTextColor.LIGHT_PURPLE)
+                        .decoration(TextDecoration.ITALIC, false),
+                Component.text("  Sprint and Right Click for spped-boost!", NamedTextColor.DARK_GRAY)
+                        .decoration(TextDecoration.ITALIC, false)
+        ));
+
+        boots.setItemMeta(meta);
+
+        boots.setData(DataComponentTypes.ITEM_MODEL, BOOTS_MODEL);
+        boots.setData(DataComponentTypes.EQUIPPABLE,
+                Equippable.equippable(EquipmentSlot.FEET)
+                        .assetId(Key.key("minecraft","enderite"))
+                        .build()
+        );
+
+        boots.setData(DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                ItemAttributeModifiers.itemAttributes()
+                        .addModifier(Attribute.ARMOR,
+                                new AttributeModifier(
+                                        new NamespacedKey(PaperUtils.getInstance(), "boots_armor"),
+                                        10,
+                                        AttributeModifier.Operation.ADD_NUMBER
+                                ),
+                                EquipmentSlotGroup.FEET
+                        )
+                        .addModifier(Attribute.ARMOR_TOUGHNESS,
+                                new AttributeModifier(
+                                        new NamespacedKey(PaperUtils.getInstance(), "boots_tough"),
+                                        4,
+                                        AttributeModifier.Operation.ADD_NUMBER
+                                ),
+                                EquipmentSlotGroup.FEET
+                        )
+                        .addModifier(Attribute.KNOCKBACK_RESISTANCE,
+                                new AttributeModifier(
+                                        new NamespacedKey(PaperUtils.getInstance(), "knockbackresboot"),
+                                        0.1,
+                                        AttributeModifier.Operation.ADD_NUMBER
+                                ),
+                                EquipmentSlotGroup.FEET
+                        )
+
+                        .build()
+        );
+
+        return boots;
+    }
+
+    public static final Key ORE_MODEL = new NamespacedKey("arbiters_crossbow", "raw_enderite");
+
+    public static ItemStack getRawOre() {
+        ItemStack ore = new ItemStack(Material.PAPER);
+        ItemMeta meta = ore.getItemMeta();
+
+        ore.displayName().decoration(TextDecoration.ITALIC, false);
+        Component displayName = Component.text("Raw Enderite", NamedTextColor.DARK_PURPLE)
+                .decorate(TextDecoration.BOLD)
+                .decoration(TextDecoration.ITALIC, false);
+
+        meta.displayName(displayName);
+        meta.getPersistentDataContainer().set(new NamespacedKey("quarkusmagnimusprime", "custom_item_id"), PersistentDataType.STRING, "raw_enderite");
+        meta.setItemModel(NamespacedKey.fromString("arbiters_crossbow:raw_enderite"));
+
+        ore.setItemMeta(meta);
+
+        return ore;
+    }
+
+    // ============ *END* CHESTPLATE LOGIC *END* =============//
+
+    // pickaxe.
+
+    public static final Key PICKAXE_MODEL = Key.key("arbiters_crossbow", "enderite_pickaxe");
+
+    public static ItemStack getPickaxe() {
+        ItemStack pick = new ItemStack(Material.NETHERITE_PICKAXE);
+        pick.setData(DataComponentTypes.ITEM_MODEL, PICKAXE_MODEL);
+
+        ItemMeta meta = pick.getItemMeta();
+        meta.displayName(MiniMessage.miniMessage().deserialize(
+                "<gradient:#B43FEF:#6978F3><bold><!italic>Enderite Pickaxe</!italic></bold></gradient>"
+        ));
+        meta.lore(List.of(
+                Component.empty(),
+                Component.text("⛏ Ender-Mining (5s)", NamedTextColor.LIGHT_PURPLE)
+                        .decoration(TextDecoration.ITALIC, false),
+                Component.text("  Shift + Break to activate", NamedTextColor.DARK_GRAY)
+                        .decoration(TextDecoration.ITALIC, false),
+                Component.text("  Cooldown: 30s", NamedTextColor.DARK_GRAY)
+                        .decoration(TextDecoration.ITALIC, false)
+        ));
+
+        meta.addEnchant(Enchantment.EFFICIENCY, 6, true);
+        meta.addEnchant(Enchantment.UNBREAKING, 10, true);
+        pick.setItemMeta(meta);
+        return pick;
+    }
+
+    public static final Key AXE_MODEL = Key.key("arbiters_crossbow", "enderite_axe");
+
+    public static ItemStack getEnderiteAxe() {
+        ItemStack axe = new ItemStack(Material.NETHERITE_AXE);
+        axe.setData(DataComponentTypes.ITEM_MODEL, AXE_MODEL);
+
+        ItemMeta meta = axe.getItemMeta();
+        meta.displayName(MiniMessage.miniMessage().deserialize(
+                "<gradient:#B43FEF:#6978F3><bold><!italic>Enderite Axe</!italic></bold></gradient>"
+        ));
+        meta.lore(List.of(
+                Component.empty(),
+                Component.text("⚔ EnderMark:", NamedTextColor.LIGHT_PURPLE)
+                        .decoration(TextDecoration.ITALIC, false),
+                Component.text("  Hitting players makes them GLOW", NamedTextColor.DARK_GRAY),
+                Component.empty(),
+                Component.text("🪓 VeinMiner:", NamedTextColor.LIGHT_PURPLE)
+                        .decoration(TextDecoration.ITALIC, false),
+                Component.text("  Shift + Break logs to fell trees", NamedTextColor.DARK_GRAY)
+        ));
+
+        meta.addEnchant(Enchantment.SHARPNESS, 5, true); // Extra damage
+        meta.addEnchant(Enchantment.UNBREAKING, 10, true);
+        axe.setItemMeta(meta);
+
+        axe.setData(DataComponentTypes.ATTRIBUTE_MODIFIERS,
+                ItemAttributeModifiers.itemAttributes()
+                        .addModifier(Attribute.ATTACK_DAMAGE, new AttributeModifier(
+                                new NamespacedKey(PaperUtils.getInstance(), "enderite_axe_damage"),
+                                13.0,
+                                AttributeModifier.Operation.ADD_NUMBER
+                        ), EquipmentSlotGroup.MAINHAND
+                        )
+
+                        .addModifier(Attribute.ATTACK_SPEED, new AttributeModifier(
+                                new NamespacedKey(PaperUtils.getInstance(), "enderite_axe_speed"),
+                                -3.2,
+                                AttributeModifier.Operation.ADD_NUMBER), EquipmentSlotGroup.MAINHAND)
+                        .build());
+
+
+        return axe;
+    }
 
 }

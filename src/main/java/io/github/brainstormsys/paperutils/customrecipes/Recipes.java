@@ -15,6 +15,8 @@ import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.naming.Name;
+import java.awt.*;
 import java.awt.print.Paper;
 import java.util.List;
 
@@ -182,6 +184,59 @@ public class Recipes implements Listener {
         recipe6.setIngredient('L', Material.NETHERITE_LEGGINGS);
         recipe6.setIngredient('P', Material.ENDER_EYE);
         PaperUtils.getInstance().getServer().addRecipe(recipe6);
+
+        NamespacedKey key7 = new NamespacedKey(PaperUtils.getInstance(), "boots");
+        ShapedRecipe recipe7 = new ShapedRecipe(key7, EnderiteLogic.getBoots());
+
+        recipe7.shape(
+                " E ",
+                " B ",
+                " P "
+        );
+        recipe7.setIngredient('E', new RecipeChoice.ExactChoice(EnderiteLogic.getEnderite()));
+        recipe7.setIngredient('B', Material.NETHERITE_BOOTS);
+        recipe7.setIngredient('P', Material.ENDER_EYE);
+        PaperUtils.getInstance().getServer().addRecipe(recipe7);
+
+        NamespacedKey key8 = new NamespacedKey(PaperUtils.getInstance(), "rawore");
+        ShapedRecipe recipe8 = new ShapedRecipe(key8, EnderiteLogic.getEnderite());
+
+        recipe8.shape(
+                " O ",
+                "OSO",
+                " O "
+        );
+        recipe8.setIngredient('O', new RecipeChoice.ExactChoice(EnderiteLogic.getRawOre()));
+        recipe8.setIngredient('S', Material.NETHER_STAR);
+        PaperUtils.getInstance().getServer().addRecipe(recipe8);
+
+
+        NamespacedKey key9 = new NamespacedKey(PaperUtils.getInstance(), "endpickaxe");
+        ShapedRecipe recipe9 = new ShapedRecipe(key9, EnderiteLogic.getPickaxe());
+
+        recipe9.shape(
+                " E ",
+                " X ",
+                " P "
+        );
+        recipe9.setIngredient('E', new RecipeChoice.ExactChoice(EnderiteLogic.getEnderite()));
+        recipe9.setIngredient('X', Material.NETHERITE_PICKAXE);
+        recipe9.setIngredient('P', Material.ENDER_EYE);
+        PaperUtils.getInstance().getServer().addRecipe(recipe9);
+
+
+        NamespacedKey key10 = new NamespacedKey(PaperUtils.getInstance(), "endaxe");
+        ShapedRecipe recipe10 = new ShapedRecipe(key10, EnderiteLogic.getEnderiteAxe());
+
+        recipe10.shape(
+                " E ",
+                " A ",
+                " P "
+        );
+        recipe10.setIngredient('E', new RecipeChoice.ExactChoice(EnderiteLogic.getEnderite()));
+        recipe10.setIngredient('A', Material.NETHERITE_AXE);
+        recipe10.setIngredient('P', Material.ENDER_EYE);
+        PaperUtils.getInstance().getServer().addRecipe(recipe10);
 
     }
 

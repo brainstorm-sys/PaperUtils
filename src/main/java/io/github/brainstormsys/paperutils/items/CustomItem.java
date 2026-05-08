@@ -36,4 +36,12 @@ public class CustomItem extends JavaPlugin {
                 })
                 .register();
     }
+
+    public static void testcomm(){
+        new CommandAPICommand("oretest")
+                .executesPlayer((player, commandArguments) -> {
+                    player.give(EnderiteLogic.getRawOre());
+                })
+                .register();
+    }
 }
