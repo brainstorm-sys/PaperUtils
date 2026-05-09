@@ -259,63 +259,69 @@ public class EnderiteLogic implements Listener {
     private static Set<UUID> cooldown = new HashSet<>();
 
     @EventHandler
-    public void onDamage(EntityDamageEvent e){
-        if(!(e.getEntity() instanceof Player player)) return;
+    public void onDamage(EntityDamageEvent e) {
+        if (!(e.getEntity() instanceof Player player)) return;
 
         ItemStack helmet = player.getInventory().getHelmet();
-        if(helmet == null) return;
+        if (helmet == null) return;
 
-        if(cooldown.contains(player.getUniqueId())) return;
+        if (cooldown.contains(player.getUniqueId())) return;
 
         Key model = helmet.getData(DataComponentTypes.ITEM_MODEL);
-        if(model == null) return;
-        if(!model.equals(EnderiteLogic.HELMET_MODEL)) return;
+        if (model == null) return;
+        if (!model.equals(EnderiteLogic.HELMET_MODEL)) return;
 
-        if(Math.random() > 0.20) return;
+        if (Math.random() > 0.20) return;
 
         double distance = 1 + (Math.random() * 3);
         double angle = Math.random() * 2 * Math.PI;
-
         double x = Math.cos(angle) * distance;
         double z = Math.sin(angle) * distance;
 
         Location tpLoc = player.getLocation().add(x, 0, z);
-        tpLoc.setY(player.getWorld().getHighestBlockYAt(tpLoc) + 1);
 
-        boolean inWater = player.isInWater();
-        boolean inRain = player.getWorld().hasStorm()
-                && player.getLocation().getY() >= player.getWorld().getHighestBlockYAt(player.getLocation())
-                && !player.getWorld().isClearWeather();
-
-        if(inWater || inRain){
-            player.damage(0.5);
-
-            player.getWorld().spawnParticle(
-                    Particle.SMOKE,
-                    player.getLocation().add(0, 1.8, 0),
-                    10, 0.2, 0.1, 0.2, 0.02
-            );
-
-            player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 0.3f, 1.5f);
+        if (!isSafe(tpLoc)) {
+            tpLoc.add(0, 1, 0);
+            if (!isSafe(tpLoc)) {
+                tpLoc.add(0, -2, 0);
+                if (!isSafe(tpLoc)) {
+                    return;
+                }
+            }
         }
 
-        player.getWorld().spawnParticle(Particle.REVERSE_PORTAL, player.getLocation().add(0,1,0), 30, 0.3, 0.5, 0.3, 0.05);
+        tpLoc.setYaw(player.getLocation().getYaw());
+        tpLoc.setPitch(player.getLocation().getPitch());
+
+        // Effects
+        player.getWorld().spawnParticle(Particle.REVERSE_PORTAL, player.getLocation().add(0, 1, 0), 30, 0.3, 0.5, 0.3, 0.05);
         player.teleport(tpLoc);
         player.getWorld().spawnParticle(Particle.REVERSE_PORTAL, tpLoc.clone().add(0, 1, 0), 30, 0.3, 0.5, 0.3, 0.05);
         player.getWorld().playSound(tpLoc, Sound.ENTITY_ENDERMAN_TELEPORT, 0.5f, 1.5f);
 
-        player.setCooldown(Material.NETHERITE_HELMET, HELMET_COOLDOWN);
-
         e.setCancelled(true);
-        player.sendActionBar(Component.text("✦ Dodge!", NamedTextColor.LIGHT_PURPLE));
-
+        Bukkit.getScheduler().runTaskLater(PaperUtils.getInstance(), () -> {
+            player.sendActionBar(Component.text("✦ Dodge!", NamedTextColor.LIGHT_PURPLE));
+        }, 3L);
 
         cooldown.add(player.getUniqueId());
+        player.setCooldown(Material.NETHERITE_HELMET, HELMET_COOLDOWN);
 
         Bukkit.getScheduler().runTaskLater(PaperUtils.getInstance(), () -> {
             cooldown.remove(player.getUniqueId());
         }, HELMET_COOLDOWN);
+    }
 
+    private boolean isSafe(Location loc) {
+        Block feet = loc.getBlock();
+        Block head = feet.getRelative(0, 1, 0);
+        Block ground = feet.getRelative(0, -1, 0);
+
+        // Feet and head must be air
+        // Ground must be solid
+        return feet.getType().isAir()
+                && head.getType().isAir()
+                && ground.getType().isSolid();
     }
 
     public static void startWaterDamageTaskshi(){
