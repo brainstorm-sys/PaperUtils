@@ -6,6 +6,19 @@ This repository will be updated frequently, as it is one of my recent projects a
 Key functions/commands and requirements are given below:
 
 
+## Custom Items
+
+- **Enerite Items/Armor:**
+  Includes Full set Enderite Armor as well as it's following Tools (Enderite Sword and Pickaxe)
+  Custom Abilities of the armor will be discussed later.
+
+- **Sweet Crystals**
+  Includes the sweet crystals, which people can snort in, with custom sound effect and gives speed 10 boots.
+
+- **Bunch of foods**
+  Eh includes sushi, burger and more.
+
+
 ## 📜 **Commands**
 
 - `/spawn`
@@ -26,6 +39,7 @@ Gives the JailWand
 _Used to set or modify jail locations._
 
 Added Sweet crystals, with purity status (more purity if cooked more on Blast Furnace), to obtain, cook amythiest shard in a Blast Furnace.
+
 
 ## 🚀 Installation
 
