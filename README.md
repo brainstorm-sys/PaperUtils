@@ -1,6 +1,6 @@
 # 📦 PaperUtils
 ## 📖 Overview
-A lightweight Paper plugin designed primarily for multiplayer servers. It includes a variety of features aimed at enhancing the overall gameplay experience for both players and moderators. The plugin focuses on essential server functionality, including custom items, commands, and moderation tools/key components for maintaining a smooth and well managed SMP environment.
+A lightweight Paper plugin designed primarily for multiplayer servers. It includes a variety of features aimed at enhancing the overall gameplay experience for both players and moderators. The plugin focuses on essential server functionality, including custom items, commands, and moderation tools/key components for maintaining a smooth and well-managed SMP environment.
 
 This repository will be updated frequently, as it is one of my recent projects and part of my journey learning Java. Feedback and suggestions are always welcome, so feel free to point out any issues or improvements!
 Key functions/commands and requirements are given below:
@@ -8,15 +8,15 @@ Key functions/commands and requirements are given below:
 
 ## Custom Items
 
-- **Enerite Items/Armor:**
-  Includes Full set Enderite Armor as well as it's following Tools (Enderite Sword and Pickaxe)
+- **Enderite Items/Armor:**
+  Includes a full set of Enderite Armor as well as its following Tools (Enderite Sword and Pickaxe)
   Custom Abilities of the armor will be discussed later.
 
-- **Sweet Crystals**
-  Includes the sweet crystals, which people can snort in, with custom sound effect and gives speed 10 boots.
+- **Sweet Crystals:**
+  Includes the sweet crystals, which people can snort in, with a custom sound effect, and gives Speed 10 boots.
 
-- **Bunch of foods**
-  Eh includes sushi, burger and more.
+- **Bunch of foods:**
+  Eh includes sushi, burgers, and more.
 
 
 ## 📜 **Commands**
@@ -38,7 +38,7 @@ Gives the JailWand
 🔒 Permission required: moderator
 _Used to set or modify jail locations._
 
-Added Sweet crystals, with purity status (more purity if cooked more on Blast Furnace), to obtain, cook amythiest shard in a Blast Furnace.
+Added Sweet crystals with purity status (more purity if cooked longer in a Blast Furnace); cook amethyst shards in a Blast Furnace to obtain them.
 
 
 ## 🚀 Installation
